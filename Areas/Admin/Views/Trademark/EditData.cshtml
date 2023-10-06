@@ -1,0 +1,25 @@
+﻿@model LacDau.Models.TrademarkVM.TrademarkVM;
+@{
+    Layout = null;
+}
+<form>
+    <input hidden asp-for="Id" />
+    <input hidden asp-for="CreatedDate" />
+    <input hidden asp-for="Logo" />
+
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="d-flex justify-content-around">
+        <p class="text-dark">Ảnh cũ</p>
+        <img src="@Model.Logo" style="max-height:100px; width:auto;"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="LogoImg" class="control-label"></label>
+        <input asp-for="LogoImg" class="form-control" />
+        <span asp-validation-for="LogoImg" class="text-danger"></span>
+    </div>
+
+</form>

@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>@ViewData["Title"] Admin Web</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+
+    <link href="/lib/fe_admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <!-- Custom styles for this template-->
+    <link href="/lib/fe_admin/css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- Bootstrap core JavaScript-->
+    <script src="/lib/fe_admin/vendor/jquery/jquery.min.js"></script>
+    <script src="/lib/fe_admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!--DataTable-->
+    <link href="/lib/datatable/datatables.min.css" rel="stylesheet" />
+    <script src="/lib/datatable/datatables.min.js"></script>
+    <!--Sweet Aleart2-->
+    <link href="/lib/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <script src="/lib/sweetalert2/sweetalert2.all.min.js"></script>
+    <!--Vuejs-->
+    <script src="/lib/vuejs/vue@2.6.10_dist_vue.js"></script>
+    <script src="/js/admin.js"></script>
+</head>
+<body id="page-top">
+    <noscript>Bạn cần bật javascript để web hoạt động</noscript>
+    <div id="wrapper">
+        @await Html.PartialAsync("_Sitebar")
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                @await Html.PartialAsync("_Navbar")
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+            </div>
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+
+    <partial name="~/Areas/Admin/Views/UIComponentsModel/_BigModal.cshtml" />
+    <partial name="~/Areas/Admin/Views/UIComponentsModel/_SmallModel.cshtml" />
+    <partial name="~/Areas/Admin/Views/Shared/_ValidationScriptsPartial.cshtml" />
+
+    <!-- Core plugin JavaScript-->
+    <script src="/lib/fe_admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/lib/fe_admin/js/sb-admin-2.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

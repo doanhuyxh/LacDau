@@ -1,0 +1,3 @@
+﻿var EvenBus = new Vue({
+
+})
