@@ -21,6 +21,53 @@ var configuration = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
+// Add services to the container.
+builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddMvc();
+//api controller
+//builder.Services.AddSwaggerGen(c =>
+//{
+//    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Documentation", Version = "v1" });
+//    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+
+//    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+//    {
+//        Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'",
+//        Name = "Authorization",
+//        In = ParameterLocation.Header,
+//        Type = SecuritySchemeType.Http,
+//        Scheme = "bearer",
+//        BearerFormat = "JWT",
+//    });
+
+//    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+//        {
+//            {
+//                new OpenApiSecurityScheme
+//                {
+//                    Reference = new OpenApiReference
+//                    {
+//                        Type = ReferenceType.SecurityScheme,
+//                        Id = "Bearer"
+//                    }
+//                },
+//                new string[] { "authorize" }
+//            }
+//        });
+
+//    c.TagActionsBy(apiDesc =>
+//    {
+//        var controllerInfo = apiDesc.ActionDescriptor.RouteValues["Controller"];
+//        var isAllowAnonymous = apiDesc.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>().Any();
+
+//        return isAllowAnonymous ? $"{controllerInfo}" : $"{controllerInfo} Authorize";
+//    });
+
+
+//});
+
 //Add connetdatabase
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlServer(configuration.GetConnectionString("MSSQL")));
@@ -71,7 +118,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
     options.Cookie.Name = "WebAppLacDau"; // Tên cookie
-    options.Cookie.Domain = "scammer.click"; // Tên miền cookie áp dụng (nếu có)
+    options.Cookie.Domain = ""; // Tên miền cookie áp dụng (nếu có)
     options.Cookie.Path = "/"; // Đường dẫn cookie áp dụng
     options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest; // Chính sách bảo mật (SameAsRequest, Always, None)
     options.Cookie.HttpOnly = true; // Cookie chỉ được truy cập bằng HTTP (không bằng JavaScript)
@@ -85,7 +132,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 //add jwt
 builder.Services.AddAuthentication(option =>
 {
-    option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
     option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(o =>
@@ -100,52 +147,7 @@ builder.Services.AddAuthentication(option =>
     };
 });
 
-// Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddControllersWithViews();
-builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-//api controller
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Documentation", Version = "v1" });
-    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
-
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT",
-    });
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-        {
-            {
-                new OpenApiSecurityScheme
-                {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                    }
-                },
-                new string[] { "authorize" }
-            }
-        });
-
-    c.TagActionsBy(apiDesc =>
-    {
-        var controllerInfo = apiDesc.ActionDescriptor.RouteValues["Controller"];
-        var isAllowAnonymous = apiDesc.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>().Any();
-
-        return isAllowAnonymous ? $"{controllerInfo}" : $"Authorize {controllerInfo}";
-    });
-
-
-});
 
 
 
@@ -170,19 +172,20 @@ app.UseStaticFiles();
 
 app.UseEndpoints(endpoints =>
 {
+
     endpoints.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
 
     endpoints.MapControllerRoute(
-       name: "admin",
-       pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}",
-       defaults: new { area = "Admin" });
+      name: "admin",
+      pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}",
+      defaults: new { area = "Admin" });
 
 });
 
 
-// Đặt cấu hình Swagger UI ngay từ root URL
+//Đặt cấu hình Swagger UI ngay từ root URL
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {

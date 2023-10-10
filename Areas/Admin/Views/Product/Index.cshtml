@@ -1,1 +1,123 @@
-﻿
+﻿<div id="AppVueProduct" class="row">
+    <div class="col-12 row">
+        <div class="col-3"><div v-on:click="AddProduct()" class="btn btn-success">Thêm sản phẩm</div></div>
+    </div>
+    <div class="container mt-lg-2">
+        <table class="table table-striped" id="tableBrand">
+            <thead class="text-dark">
+                <tr>
+                    <th class="text-center">STT</th>
+                    <th class="text-center">Tên danh mục</th>
+                    <th class="text-center"></th>
+                </tr>
+            </thead>
+            <tr v-for="(item, index) in data">
+                <td class="text-center">{{index+1}}</td>
+                <td class="text-center">{{item.name}}</td>
+                <td class="text-center">
+                    <span class="btn btn-warning" v-on:click="EditProduct(item.id)">Cập nhật</span>
+                    <span class="btn btn-danger" v-on:click="DeleteProduct(item.id)">Xóa</span>
+                </td>
+            </tr>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    var AppVueProduct = new Vue({
+        el: "#AppVueProduct",
+        data: {
+            data: []
+        },
+        computed: {
+
+        },
+        mounted() {
+            this.initData();
+        },
+        methods: {
+            initData() {
+                fetch("/Admin/Product/GetData")
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data.object)
+                        this.data = data.object;
+                    })
+            },
+            AddProduct() {
+                $("#BigModelContent").load(`/Admin/Product/AddData`, function () {
+                    $("#staticBigModel").modal("show");
+                    $("#staticBigModellTitle").html("Thêm danh mục mới")
+                })
+            },
+            EditProduct(id) {
+                $("#BigModelContent").load(`/Admin/Product/EditData?id=${id}`, function () {
+                    $("#staticBigModel").modal("show");
+                    $("#staticBigModellTitle").html("Cập nhật danh mục")
+                })
+            },
+            DeleteProduct(id) {
+                let custhis = this;
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn xóa ?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Xóa',
+                    showCancelButton: true,
+                    cancelButtonText: "Hủy",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/Admin/Product/DeleteProduct?id=${id}`, {
+                            method: "DELETE"
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.statusCode) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: "Thành công",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then((res) => { custhis.initData() });
+                                }
+                            })
+                    }
+                })
+            }
+        }
+    })
+
+
+    function Save() {
+
+        var _data = new FormData()
+        _data.append("Id", $("#Id").val())
+        _data.append("CreatedDate", $("#CreatedDate").val())
+        _data.append("Name", $("#Name").val())
+
+        fetch("/Admin/Product/AddData", {
+            method: "POST",
+            headers: {
+                processData: false,
+                contentType: false,
+            },
+            body: _data
+        })
+            .then(res => res.json())
+            .then(res => {
+                $('#staticBigModel').modal('hide');
+                console.log(res)
+                Swal.fire({
+                    title: "Thành công",
+                    icon: 'info',
+                }).then(res => {
+                    AppVueProduct.initData();
+                });
+            })
+    }
+</script>

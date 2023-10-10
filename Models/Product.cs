@@ -15,6 +15,7 @@ namespace LacDau.Models
         public int CategoryId { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsHome { get; set; }
+        public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
     }
 }

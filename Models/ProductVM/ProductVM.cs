@@ -13,7 +13,7 @@
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsHome { get; set; }
-
+        public bool IsActive { get; set; }
         public IFormFile? Img1File { get; set; }
         public IFormFile? Img2File { get; set; }
         public IFormFile? VideoFile { get; set; }
@@ -31,6 +31,7 @@
                 TrademarkId = product.TrademarkId,
                 CategoryId = product.CategoryId,
                 IsHome = product.IsHome,
+                IsActive = product.IsActive,
                 CreatedDate = product.CreatedDate,
                 IsDeleted = product.IsDeleted,
             };
@@ -47,6 +48,7 @@
                 Video = vm.Video ?? "",
                 TrademarkId = vm.TrademarkId,
                 IsHome = vm.IsHome,
+                IsActive = vm.IsActive,
                 CategoryId = vm.CategoryId,
                 CreatedDate = vm.CreatedDate,
                 IsDeleted = vm.IsDeleted,
