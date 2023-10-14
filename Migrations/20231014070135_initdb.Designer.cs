@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LacDau.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231006182958_initDb")]
-    partial class initDb
+    [Migration("20231014070135_initdb")]
+    partial class initdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -156,6 +156,9 @@ namespace LacDau.Migrations
                     b.Property<string>("Img2")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

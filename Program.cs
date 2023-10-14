@@ -27,46 +27,46 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddMvc();
 //api controller
-//builder.Services.AddSwaggerGen(c =>
-//{
-//    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Documentation", Version = "v1" });
-//    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Documentation", Version = "v1" });
+c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 
-//    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-//    {
-//        Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'",
-//        Name = "Authorization",
-//        In = ParameterLocation.Header,
-//        Type = SecuritySchemeType.Http,
-//        Scheme = "bearer",
-//        BearerFormat = "JWT",
-//    });
+c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+{
+    Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'",
+    Name = "Authorization",
+    In = ParameterLocation.Header,
+    Type = SecuritySchemeType.Http,
+    Scheme = "bearer",
+    BearerFormat = "JWT",
+});
 
-//    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-//        {
-//            {
-//                new OpenApiSecurityScheme
-//                {
-//                    Reference = new OpenApiReference
-//                    {
-//                        Type = ReferenceType.SecurityScheme,
-//                        Id = "Bearer"
-//                    }
-//                },
-//                new string[] { "authorize" }
-//            }
-//        });
+c.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                },
+                new string[] { "authorize" }
+            }
+        });
 
-//    c.TagActionsBy(apiDesc =>
-//    {
-//        var controllerInfo = apiDesc.ActionDescriptor.RouteValues["Controller"];
-//        var isAllowAnonymous = apiDesc.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>().Any();
+c.TagActionsBy(apiDesc =>
+{
+    var controllerInfo = apiDesc.ActionDescriptor.RouteValues["Controller"];
+    var isAllowAnonymous = apiDesc.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>().Any();
 
-//        return isAllowAnonymous ? $"{controllerInfo}" : $"{controllerInfo} Authorize";
-//    });
+    return isAllowAnonymous ? $"{controllerInfo}" : $"{controllerInfo} Authorize";
+});
 
 
-//});
+});
 
 //Add connetdatabase
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
