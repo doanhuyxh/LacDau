@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LacDau.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231014070135_initdb")]
+    [Migration("20231016184551_initdb")]
     partial class initdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -180,6 +180,43 @@ namespace LacDau.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Product");
+                });
+
+            modelBuilder.Entity("LacDau.Models.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpirydDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("JwtId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RefreshToken");
                 });
 
             modelBuilder.Entity("LacDau.Models.Trademark", b =>

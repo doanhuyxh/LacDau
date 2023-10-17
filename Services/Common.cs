@@ -1,4 +1,7 @@
 ﻿using LacDau.Data;
+using System.Runtime.InteropServices;
+using System.Text;
+using System;
 
 namespace LacDau.Services
 {
@@ -12,6 +15,19 @@ namespace LacDau.Services
             _iHostingEnvironment = iHostingEnvironment;
             _context = context;
             _configuration = configuration;
+        }
+
+        public string RandomString(int length)
+        {
+            Random random = new Random();
+            string CharSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var result = new StringBuilder(length);
+            for (int i = 0; i < length; i++)
+            {
+                int index = random.Next(CharSet.Length);
+                result.Append(CharSet[index]);
+            }
+            return result.ToString();
         }
 
         public async Task<string> UploadTrademarkAsync(IFormFile file)

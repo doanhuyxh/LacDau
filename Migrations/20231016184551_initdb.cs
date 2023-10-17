@@ -92,6 +92,25 @@ namespace LacDau.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RefreshToken",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    JwtId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsUsed = table.Column<bool>(type: "bit", nullable: false),
+                    IsRevoked = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExpirydDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshToken", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Trademark",
                 columns: table => new
                 {
@@ -275,6 +294,9 @@ namespace LacDau.Migrations
 
             migrationBuilder.DropTable(
                 name: "Product");
+
+            migrationBuilder.DropTable(
+                name: "RefreshToken");
 
             migrationBuilder.DropTable(
                 name: "Trademark");

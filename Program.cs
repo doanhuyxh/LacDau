@@ -30,19 +30,19 @@ builder.Services.AddMvc();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Documentation", Version = "v1" });
-c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 
-c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-{
-    Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'",
-    Name = "Authorization",
-    In = ParameterLocation.Header,
-    Type = SecuritySchemeType.Http,
-    Scheme = "bearer",
-    BearerFormat = "JWT",
-});
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+    });
 
-c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
         {
             {
                 new OpenApiSecurityScheme
@@ -57,13 +57,13 @@ c.AddSecurityRequirement(new OpenApiSecurityRequirement
             }
         });
 
-c.TagActionsBy(apiDesc =>
-{
-    var controllerInfo = apiDesc.ActionDescriptor.RouteValues["Controller"];
-    var isAllowAnonymous = apiDesc.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>().Any();
+    c.TagActionsBy(apiDesc =>
+    {
+        var controllerInfo = apiDesc.ActionDescriptor.RouteValues["Controller"];
+        var isAllowAnonymous = apiDesc.ActionDescriptor.EndpointMetadata.OfType<AllowAnonymousAttribute>().Any();
 
-    return isAllowAnonymous ? $"{controllerInfo}" : $"{controllerInfo} Authorize";
-});
+        return isAllowAnonymous ? $"{controllerInfo}" : $"{controllerInfo} Authorize";
+    });
 
 
 });
@@ -130,6 +130,30 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 });
 
 //add jwt
+var tokenValidata = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+{
+    ValidateIssuer = true,
+    ValidateAudience = true,
+    ValidateIssuerSigningKey = true,
+    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtConfig:Secret"])),
+    ValidateLifetime = true,
+    RequireExpirationTime = true,
+    ValidIssuer = configuration["JwtConfig:Issuer"],
+    ValidAudience = configuration["JwtConfig:Audience"],
+    LifetimeValidator = (notBefore, expires, token, param) =>
+    {
+        // Kiểm tra thời gian hết hạn của token theo logic tùy chỉnh
+        if (expires <= DateTime.UtcNow)
+        {
+            return false; // Token đã hết hạn
+        }
+        else
+        {
+            return true; // Token còn hạn
+        }
+    }
+};
+
 builder.Services.AddAuthentication(option =>
 {
     option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -139,14 +163,10 @@ builder.Services.AddAuthentication(option =>
 {
     o.SaveToken = true;
     o.RequireHttpsMetadata = false;
-    o.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-    {
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtConfig:Secret"]))
-    };
+    o.TokenValidationParameters = tokenValidata;
 });
 
+builder.Services.AddSingleton(tokenValidata);
 
 
 

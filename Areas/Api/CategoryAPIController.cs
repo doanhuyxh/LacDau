@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace LacDau.Areas.Api
 {
@@ -38,6 +39,7 @@ namespace LacDau.Areas.Api
             JsonResultVM json = new JsonResultVM();
             try
             {
+                var user = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
                 Category Category = new Category();
                 if (ModelState.IsValid)
                 {
@@ -46,7 +48,7 @@ namespace LacDau.Areas.Api
                     _context.Add(Category);
                     await _context.SaveChangesAsync();
 
-                    json.Message = "Success";
+                    json.Message = user;
                     json.StatusCode = 200;
                     json.Object = Category;
                     return Ok(json);
