@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LacDau.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231016184551_initdb")]
-    partial class initdb
+    [Migration("20231020174447_initDb")]
+    partial class initDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

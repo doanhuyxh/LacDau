@@ -1,0 +1,16 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LacDau.Models
+{
+    public class Merchant
+    {
+        [Key]
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string WebLink { get; set; }
+        public string IpnUrl { get; set; }
+        public string ReturnUrl { get; set; }
+        public string SecreKey { get; set; }
+        public bool IsActive { get; set; }
+    }
+}

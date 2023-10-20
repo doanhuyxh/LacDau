@@ -142,14 +142,13 @@ var tokenValidata = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
     ValidAudience = configuration["JwtConfig:Audience"],
     LifetimeValidator = (notBefore, expires, token, param) =>
     {
-        // Kiểm tra thời gian hết hạn của token theo logic tùy chỉnh
         if (expires <= DateTime.UtcNow)
         {
-            return false; // Token đã hết hạn
+            return false;
         }
         else
         {
-            return true; // Token còn hạn
+            return true;
         }
     }
 };
