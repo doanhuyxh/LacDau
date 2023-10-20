@@ -168,6 +168,15 @@ builder.Services.AddAuthentication(option =>
 
 builder.Services.AddSingleton(tokenValidata);
 
+// add cors
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy( builder =>
+    {
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+
+    });
+});
 
 
 
@@ -181,7 +190,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-
+app.UseCors();
 app.UseRouting();
 app.UseSession();
 app.UseCookiePolicy();
