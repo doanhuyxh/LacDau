@@ -12,5 +12,7 @@ namespace LacDau.Models
         public string ReturnUrl { get; set; }
         public string SecreKey { get; set; }
         public bool IsActive { get; set; }
+        public string CreatedBy { get; set; }
+        public string LastUpdateBy { get; set; }
     }
 }

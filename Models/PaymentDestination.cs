@@ -14,7 +14,6 @@ namespace LacDau.Models
         public string ParentId { get; set; }
         public bool IsActive { get; set; }
 
-        [ForeignKey("ParentId")]
-        public PaymentDestination Parent { get; set; }
+        
     }
 }
