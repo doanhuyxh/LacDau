@@ -1,49 +1,566 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿<!doctype html>
+<html lang="vi">
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - LacDau</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/LacDau.styles.css" asp-append-version="true" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+    <title>LẮC ĐẦU SHOP -  MÔ HÌNH, PHỤ KIỆN, ĐỒ TRANG TRÍ MÁY TÍNH - PC </title>
+
+    <meta property="og:image" content="/static/assets/default/images/image_Share.png" />
+    <link rel="shortcut icon" href="/static/assets/default/images/favicon.png" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/static/assets/default/script/library.css">
+    
+
+    <link rel="stylesheet" href="/static/assets/default/script/pc_style65db.css?27.07.2022.61" >
+    @* <link rel="stylesheet" href="/static/assets/default/script/pc_style65db.css?27.07.2022.61" > *@
+
+    <script src="https://kit.fontawesome.com/3b023d18d9.js?_=1698261981210"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LacDau</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+
+    <div class="container">
+        <div class="global-header-middle-group text-13 d-flex flex-wrap align-items-center">
+            <a href="index.html" class="header-left-group">
+                <img src="/static/assets/default/images/logo.png" alt="Lắc đầu" width="1" height="1" class="d-block m-auto h-auto w-auto" />
+            </a>
+
+            @await Html.PartialAsync("_nav")
+
+            <div class="header-search-group">
+                <form method="get" action="https://lacdau.com/tim" name="search" class="search-input-group bg-white position-relative">
+                    <button type="submit" class="btn-search icons"></button>
+                    <input type="text" id="js-seach-input" name="q" placeholder="Bạn cần tìm gì?" value="" autocomplete="off" class="text-search">
+                </form>
+
+                <div class="autocomplete-suggestions" id="js-seach-result"> </div>
+            </div>
+
+            <div class="header-right-group">
+                <div class="item">
+                    <i class="icons icon-phone"></i>
+
+                    <a href="tel:0349.296.461" class="text font-700">
+                        <span class="font-400">Hotline</span>
+                        <b>0349.296.461</b>
+                    </a>
+                </div>
+
+                <div class="item">
+                    <i class="icons icon-bolt"></i>
+
+                    <a href="https://www.messenger.com/t/1684408595122637" target="_blank" class="text font-500">Tư vấn trực tiếp</a>
+                </div>
+
+                <div class="item item-cart position-relative" id="js-header-cart">
+                    <a href="cart.html" class="icons icon-cart"> <span class="cart-count js-cart-count">0</span></a>
+                    <a href="cart.html" class="font-700">Giỏ hàng</a>
+
+                    <div class="header-cart-hover" id="js-header-cart-holder"><!-- cart hover --></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="global-header-block" style="display: none;"></div>
+
+
+    <h1 style="position: absolute; top: -99999px;">LẮC ĐẦU SHOP -  MÔ HÌNH, PHỤ KIỆN, ĐỒ TRANG TRÍ MÁY TÍNH - PC </h1>
+
+    @RenderBody()
+
+
+
+    @await Html.PartialAsync("_footer")
+
+
+    <div class="success-form" style="display: none">
+        <div class="content-container">
+            <div class="success-checkmark">
+                <div class="check-icon">
+                    <span class="icon-line line-tip"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+            <div class="text-center content-text text-24"> Thêm sản phẩm vào giỏ hàng thành công !</div>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - LacDau - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <div class="global-fixed-bottom-container">
+        <a href="https://www.instagram.com/lac.dau/" class="lazy" data-bg="url(/static/assets/default/images/instagram.png)" style="background-position: center;background-size: contain;background-repeat: no-repeat;" target="_blank"></a>
+        <a href="https://www.tiktok.com/lacdaushop?lang=vi-VN" class="lazy" data-bg="url(/static/assets/default/images/tik-tok.png)" style="background-position: center;background-size: contain;background-repeat: no-repeat;" target="_blank"></a>
+        <a href="https://www.youtube.com/channel/UC0kL-L4W-QBwgwqCv408J2A" class="icons icon-youtube" target="_blank" title="Youtube"></a>
+        <a href="https://www.facebook.com/lacdaustore" class="icons icon-facebook" target="_blank" title="Facebook"></a>
+        <a href="javascript:void(0)" class="global-goTop" id="js-goTop" title="Lên đầu trang"></a>
+        <a href="https://m.me/lacdaustore" target="_blank" class="icon-mess" title="Chat với chúng tôi"></a>
+        <a href="https://zalo.me/0349296461" target="_blank" class="icon-mess" title="Chat với chúng tôi" style="background-image: url(static/assets/default/images/icon-zalo-2021.png);"></a>
+    </div>
+
+
+    <script src="https://static.gleecdn.com/hura8/v2/vendors.js"></script>
+    <script src="https://static.gleecdn.com/hura8/v2/hura8.js?3"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+    <script src="/static/assets/default/script/library.js"></script>
+
+
+    <script>
+        var lazy_load_group = [];
+
+        var lazyLoadInstance = new LazyLoad({
+            elements_selector: ".lazy"
+        });
+
+        $(document).ready(function () {
+            Hura.UI.loadGroup(lazy_load_group);
+
+            showCartSummary(".js-cart-count");
+
+            _headerLoadMap();
+
+            _headerHoverMenu();
+
+            ajaxGetFooterArticle();
+
+            $('.banner-popup-container').fadeIn(100);
+
+            $("#js-goTop").click(function () {
+                $('html,body').animate({ scrollTop: 0 }, 800);
+            });
+
+            $("#js-header-cart").hover(function () {
+                if (!$("#js-header-cart-holder").hasClass("loaded")) {
+                    $("#js-header-cart-holder").load("/cart?type=ajax");
+                    $("#js-header-cart-holder").addClass("loaded");
+                }
+            });
+
+            setTimeout(function () {
+                $("#js-fontawesome-lib").html('\x3Cscript src="../kit.fontawesome.com/3b023d18d9.js">\x3C/script>');
+            }, 500);
+
+            $(window).scroll(function () {
+                _scrollFixedHeader();
+
+                ajaxGetFooterArticle();
+            });
+
+
+        });
+
+        function _headerHoverMenu() {
+            $('.js-menu-title').click(function () {
+                $('body').toggleClass('active');
+                $('.menu-list').toggleClass('d-block');
+            });
+
+
+            $('body').click(function (e) {
+                var targ = $(".js-menu-title");
+                if (!targ.is(e.target) && targ.has(e.target).length === 0) {
+                    $('body').removeClass('active');
+                    $('.menu-list').removeClass('d-block');
+                }
+            });
+        }
+
+
+        function _scrollFixedHeader() {
+            var fixed_height = 800;
+            if ($(window).scrollTop() > fixed_height) {
+                $('.global-header-container').addClass('header-fixed');
+                $('.global-header-block').show();
+                $('.global-fixed-bottom-container').addClass('active');
+                $('.menu-list').addClass('d-none');
+            } else {
+                $('.global-header-container').removeClass('header-fixed');
+                $('.global-header-block').hide();
+                $('.global-fixed-bottom-container').removeClass('active');
+                $('.menu-list').removeClass('d-none');
+            }
+        }
+
+        function _headerLoadMap() {
+            $('.global-header-top-group .item').hover(function () {
+                if ($('#js-load-map').hasClass('loaded') == false) {
+
+                    $('#js-load-map').html(`<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3724.4854518231614!2d105.8163974!3d21.0132533!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab7d33b90bd5%3A0x9d9d6f5da32dda1e!2zMTUgUC5Zw6puIEzDo25nLCBUcnVuZyBMaeG7h3QsIMSQ4buRbmcgxJBhLCBIw6AgTuG7mWk!5e0!3m2!1svi!2s!4v1678960947364!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`);
+
+                    $('#js-load-map').addClass('loaded');
+                }
+            });
+        }
+
+        
+
+        function addProductToCart(product_id, variant_id, redirect) {
+            var product_prop = {
+                quantity: 1,
+                buyer_note: ''
+            };
+
+            Hura.Cart.Product.add(product_id, variant_id, product_prop).then(function (response) {
+                if (response.status === 'error') {
+                    // bao loi
+                    if (response.error_type == 'item-in-cart') alert('Sản phẩm đã trong giỏ hàng');
+                    else if (response.error_type == 'invalid-item-id') alert('ID sản phẩm không đúng');
+                    else alert(response.message);
+
+                } else {
+                    if (redirect == '/cart') {
+                        location.href = redirect;
+                    } else {
+                        $("#js-header-cart-holder").removeClass("loaded");
+
+                        showCartSummary(".js-cart-count")
+
+                        $(".success-form").show();
+
+                        setTimeout(function () {
+                            $(".success-form").fadeOut();
+                        }, 1000);
+                    }
+                }
+            });
+        }
+
+        function show_hide_pass(pa) {
+            var x = $(pa).parents('.item').find('.input-pass').attr('type');
+
+            if (x === "password") {
+                $(pa).parents('.item').find('.input-pass').attr('type', 'text');
+            } else {
+                $(pa).parents('.item').find('.input-pass').attr('type', 'password');
+            }
+        }
+
+        function ajaxGetFooterArticle() {
+            if (isOnScreen($('.global-footer-container')) && $('.global-footer-container').hasClass('loaded') == false) {
+
+                getTopArticle();
+
+                getArticleVideo();
+
+                $('.global-footer-container').addClass('loaded');
+            }
+        }
+
+        function getTopArticle() {
+            var params = {
+                action_type: 'featured',
+                type: 'article',
+                show: 10
+            }
+
+            Hura.Ajax.get('article', params).then(function (response) {
+                var data = response.splice(0, 3);
+                var html = Hura.Template.parse(articleTpl, data);
+                Hura.Template.render('#js-global-top-art', html);
+                formatArticleTime();
+            })
+        }
+
+        function getArticleVideo() {
+            var params = {
+                action_type: 'list',
+                type: 'article',
+                catId: 7,
+                show: 4
+            }
+
+            Hura.Ajax.get('article', params).then(function (response) {
+                var data = response.list.splice(0, 3);
+                var html = Hura.Template.parse(videoTpl, data);
+                Hura.Template.render('#js-footer-video-holder', html);
+            })
+        }
+
+        function formatArticleTime() {
+            $('.js-art-time').each(function () {
+                var html = '';
+                var time = $(this).attr('data-time');
+                var checkDay = time.substring(0, 7);
+
+                if (checkDay == 'Hôm nay') {
+                    var today = new Date();
+                    var day = String(today.getDate()).padStart(2, '0');
+                    var month = String(today.getMonth() + 1).padStart(2, '0');
+                    var year = today.getFullYear();
+
+                } else {
+                    var day = time.substring(0, 2);
+                    var month = time.substring(3, 5);
+                    var year = time.substring(6, 10)
+                }
+
+                html = `<span>` + day + `.` + month + `</span> <b>` + year + `</b>`;
+
+                $(this).html(html);
+            });
+        }
+    </script>
+
+
+
+
+
+    <script>
+        var article_top = `
+                                <div class="item">
+                                    <a href="{%= item.url %}" class="img"> <img src="{%= item.image.original %}" alt="{%= item.title %}"/></a>
+                                    <div class="item-text">
+                                        <span class="number">01</span>
+
+                                        <div class="text">
+                                            <a href="{%= item.url %}" class="title">{%= item.title %}</a>
+
+                                            <div class="share">
+                                                <span><i class="fa fa-share-alt"></i> Chia sẻ</span>
+
+                                                <div class="btn-share">
+                                                    <div class="fb-share-button" data-href="{%= item.url %}" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&src=sdkpreparse" class="fb-xfbml-parse-ignore"><i class="fa fa-facebook" style="margin-right: 5px"></i> Chia sẻ</a></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+
+        var article_item = `
+                                <div class="art-item">
+                                    <a href="{%= item.url %}" class="art-img"> <img src="{%= item.image.original %}" alt="{%= item.title %}"/></a>
+
+                                    <div class="art-text">
+                                        <a href="{%= item.url %}" class="art-title"> {%= item.title %}</a>
+                                        <time>
+                                            <i class="fa fa-clock-o"></i>
+                                            {% if (item.article_time != "") { %}{%= item.article_time %}{% } else { %}{%= item.createDate %}{% } %}
+                                        </time>
+                                    </div>
+
+                                    <div class="art-summary"> {%= item.summary %}</div>
+                                </div>
+                            `;
+
+        var hom_article_big = `
+                                <div class="art-item">
+                                    <a href="{%= item.url %}" class="art-img"> <img src="{%= item.image.original %}" alt="{%= item.title %}" class="w-100"/></a>
+
+                                    <div class="art-text">
+                                        <a href="{%= item.url %}" class="art-title"> {%= item.title %}</a>
+                                        <time>
+                                            <i class="fa fa-clock-o" style="margin-right: 10px"></i> {% if (item.article_time != "") { %}{%= item.article_time %}{% } else { %}{%= item.createDate %}{% } %}
+                                            <i class="fa fa-comment" style="margin-right: 10px"></i> {%= item.review_count %}
+                                            <i class="fa fa-eye"></i> {%= item.visit %}
+                                        </time>
+
+                                        <div class="art-summary"> {%= item.summary %}</div>
+                                    </div>
+                                </div>
+                            `;
+
+        var videoTpl = `
+                                <a href="{%= item.external_url %}" data-fancybox="">
+                                    {% if (item.image.original != "") { %} <img src="{%= item.image.original %}">
+                                    {% } else { %} <img src="../img.youtube.com/vi/%7b%25%3d%20Hura.Youtube.getId(item.external_url)%20%25%7d/mqdefault.html">
+                                    {% } %}
+                                </a>
+                            `;
+
+        var articleTpl = `
+                                <div class="art-item">
+                                    <a href="{%= item.url %}" class="art-img">
+                                        <img src="{%= item.image.original %}" alt="{%= item.title %}"/>
+                                    </a>
+
+                                    <div class="art-text">
+                                        <p class="art-time js-art-time" data-time="{% if (item.article_time != "") { %}{%= item.article_time %}{% } else { %}{%= item.createDate %}{% } %}">
+                                            <span>17.06</span>
+                                            <b>2022</b>
+                                        </p>
+
+                                        <a href="{%= item.url %}" class="art-title">{%= item.title %}</a>
+
+                                        <div class="art-summary">{%= item.summary %}</div>
+                                    </div>
+                                </div>
+                            `;
+
+
+        var productTpl = `
+                                <div class="p-item">
+                                    <a href="{%= item.productUrl %}" class="p-img">
+                                        <img src="{%= item.productImage.large %}" alt="{%= item.productName %}"/>
+
+                                        {% if (item.price_off > 0) { %}
+                                        <span class="p-disoucnt">-{%= parseInt(item.price_off) %}%</span>
+                                        {% } %}
+                                    </a>
+
+                                    <div class="p-text">
+                                      <div class="d-flex align-item-center justify-content-between">
+                                        <p class="p-sku">Mã: {%= item.productSKU %}</p>
+                                        <p class="p-qty {% if (item.quantity > 0) { %}conhang{% } %}">{% if (item.quantity > 0) { %}Còn hàng {% } else { %} Hết hàng {% } %}</p>
+                                      </div>
+                                        <a href="{%= item.productUrl %}" class="p-name">{%= item.productName %}</a>
+
+                                        <div class="p-price-container">
+                                            {% if (item.price_off > 0) { %}
+                                            <del class="p-old-price">{%= formatCurrency(item.marketPrice) %}<u>đ</u></del>
+                                            {% } %}
+
+                                            <span class="p-price">
+                                                {% if (item.price > 0) { %} {%= formatCurrency(item.price) %}<u>đ</u>
+                                                {% } else { %} Liên hệ
+                                                {% } %}
+                                            </span>
+
+                                            <a href="javascript:void(0)" class="p-btn-cart" onclick="addProductToCart({%= item.id %}, 0, '')"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+
+        var commentTpl = `
+                                {% if (item.approved == 1) { %}
+                                <div class="item-comment" id="comment_{%= item.id %}">
+                                    <div class="comment-form-left">
+                                        {% if (item.is_user_admin == 1) { %}
+                                        <b class="avatar-user avatar-admin"><img src="/static/assets/default/images/favicon.png" alt="admin avatar" /></b>
+                                        {% } else { %}
+                                        <b class="avatar-user js-avatar-user">{%= item.user_name %}</b>
+                                        {%} %}
+                                    </div>
+
+                                    <div class="comment-form-right">
+                                        <div class="comment-name">
+                                            <b class="user-name"> {%= item.user_name %} </b>
+                                            {% if (item.is_user_admin == 1) { %}<i class="note">Quản trị viên</i>
+                                            {% } else { %} <i class="icon-star star-{%= item.rate %}"></i>
+                                            {%} %}
+                                        </div>
+
+                                        <div class="comment-content">{%= item.content %}</div>
+
+                                        <div class="info_feeback">
+                                            <span style="color:#787878;font-size: 12px;">({%= formatDate(item.post_time) %})</span>
+
+                                            <a href='javascript:;' onclick="$('#reply_comment_{%= item.id %}').toggle()" class="write_reply btn-reply">Trả lời</a>
+                                        </div>
+
+                                        <div id='reply_comment_{%= item.id %}' class="reply-form-group" style="display:none; margin-top:15px;">
+                                            <div class="comment-form reply-template">
+                                                <form  action="/ajax/post_comment.php" method="post" enctype="multipart/form-data"  onsubmit="return check_field({%= item.id %})" class="form-reply{%= item.id %}">
+                                                    <input type="hidden" name='user_post[reply_to]' value='{%= item.id %}'/>
+
+                                                    <div class="relative">
+                                                        <textarea placeholder="Nội dung phản hồi" class="form-reply-2021 js-show-form-input"
+                                                        data-target="#comment-form-input-{%= item.id %}"
+                                                        id="content{%= item.id %}" onfocus="showFormReply('form-input{%= item.id %}')" ></textarea>
+
+                                                        <div class="form-input" id="form-input{%= item.id %}">
+                                                            {%# checkReply(is_admin_login,customer_info, item.id) %}
+                                                        </div>
+                                                    </div><!--relative-->
+                                                </form>
+                                            </div>  <!-- comment-form -->
+                                        </div> <!-- reply-form -->
+
+                                        <!-- reply list -->
+                                        <div class="reply-list-container js-replyList-item" id="reply_list_{%= item.id %}" data-item-id="{%= item.id %}">
+                                            {%# getReply(item.id) %}
+                                        </div>
+                                        <!-- end reply list-->
+                                    </div>
+                                </div>
+
+                                {%} %}
+                            `;
+
+        var replyTpl = `
+                                {% if (item.approved  == 1 || item.is_user_admin == 1 ) { %}
+                                <div class="item_reply">
+                                    <div class="comment-form-left">
+                                        {% if (item.is_user_admin == 1) { %}
+                                        <b class="avatar-user avatar-admin"><img src="/static/assets/default/images/favicon.png" alt="admin avatar" /></b>
+                                        {% } else { %}
+                                        <b class="avatar-user js-avatar-user">{%= item.user_name %}</b>
+                                        {%} %}
+                                    </div>
+
+                                    <div class="comment-form-right">
+                                        <div class="comment-name">
+                                            <b class="user-name"> {%= item.user_name %} </b>
+                                            {% if (item.is_user_admin == 1) { %}<i class="note">Quản trị viên</i> {%} %}
+                                        </div>
+
+                                        <div class="comment-content">{%= item.content %}</div>
+
+                                        <div class="info_feeback">
+                                            <span style="color:#787878;font-size: 12px;">({%= formatDate(item.post_time) %})</span>
+                                        </div>
+
+                                    </div><!--comment_right-->
+                                </div><!--item-reply-->
+                                {%} %}
+                            `;
+
+        var rating_tpl = `
+                                {% if (item.approved  == 1 || item.is_user_admin == 1 ) { %}
+                                <div class="item">
+                                    <div class="name-date">
+                                        <span> {%= item.user_name %} </span> | Ngày {%= formatDate(item.post_time) %}</div>
+                                    <div class="content">
+                                        <span class="star-rate-review icon-star star-{%= item.rate %}"></span>
+                                        <span class="txt">{%= item.content %}</span>
+                                    </div>
+                                </div>
+                                {%} %}
+                            `;
+
+        var provinceTpl = `
+                                <option value="{%= item.id %}"  data-name="{%= item.name %}">{%= item.name %}</option>
+                            `;
+
+        var instant_search_result_template = `
+                                <div class="list">
+                                    <a href="{%=item.url%}">
+                                        {% if (item.image != "") { %} <img src="{%= item.image %}" />
+                                        {% } else { %} <img src="static/assets/default/images/logo.png"/>
+                                        {% } %}
+                                        <span class="info">
+                                          <span class="name">{%=item.title%}</span>
+                                          <span class="price">{%= item.price > 0 ? formatCurrency(item.price) + 'đ' : 'Liên hệ' %}</span>
+                                        </span>
+                                    </a>
+                                </div>
+                            `;
+    </script>
+
+
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="../connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v13.0" nonce="VRX32SiA"></script>
+
 </body>
+
+<!-- Mirrored from lacdau.com/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 21 Oct 2023 07:09:34 GMT -->
 </html>
+
+<!-- Load time: 0.07853 seconds  / 6 mb-->
+<!-- Powered by Hura8 Cloud - 2.3, Released: 10-Aug-2021 / Website: www.hurasoft.vn -->

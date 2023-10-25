@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Slug { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }
 
@@ -14,6 +15,7 @@
                 Id = category.Id,
                 Name = category.Name,
                 CreatedDate = category.CreatedDate,
+                Slug = category.Slug,
                 IsDeleted = category.IsDeleted,
             };
         }
@@ -24,6 +26,7 @@
             {
                 Id = vm.Id,
                 Name = vm.Name,
+                Slug = vm.Slug,
                 CreatedDate = vm.CreatedDate,
                 IsDeleted = vm.IsDeleted,
             };

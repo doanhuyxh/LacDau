@@ -8,12 +8,16 @@
                 <tr>
                     <th class="text-center">STT</th>
                     <th class="text-center">Tên danh mục</th>
+                    <th class="text-center">Slug</th>
+                    <th class="text-center">Danh mục phụ</th>
                     <th class="text-center"></th>
                 </tr>
             </thead>
             <tr v-for="(item, index) in data">
                 <td class="text-center">{{index+1}}</td>
                 <td class="text-center">{{item.name}}</td>
+                <td class="text-center">{{item.slug}}</td>
+                <th class="text-center text-wrap"><span class="btn btn-info opacity-5" v-on:click="ViewSubCate(item.id)"><i class="fa fa-bars"></i></span></th>
                 <td class="text-center">
                     <span class="btn btn-warning" v-on:click="EditCategory(item.id)">Cập nhật</span>
                     <span class="btn btn-danger" v-on:click="DeleteCategory(item.id)">Xóa</span>
@@ -29,7 +33,9 @@
     var AppVueCategory = new Vue({
         el: "#AppVueCategory",
         data: {
-            data: []
+            data: [],
+            mountDataTable: false,
+            currentViewCate:0,
         },
         computed: {
 
@@ -42,8 +48,11 @@
                 fetch("/Admin/Category/GetData")
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data.object)
                         this.data = data.object;
+                        if (!this.mountDataTable) {
+                            dataTableJS("tableCategory")
+                            this.mountDataTable = true
+                        }
                     })
             },
             AddCategory() {
@@ -88,6 +97,13 @@
                             })
                     }
                 })
+            },
+            ViewSubCate(id) {
+                this.currentViewCate = id;
+                $("#BigModelContent").load(`/Admin/Category/SubCategory?id=${id}`, function () {
+                    $("#staticBigModel").modal("show");
+                    $("#staticBigModellTitle").html("Danh mục phụ")
+                })
             }
         }
     })
@@ -99,6 +115,7 @@
         _data.append("Id", $("#Id").val())
         _data.append("CreatedDate", $("#CreatedDate").val())
         _data.append("Name", $("#Name").val())
+        _data.append("Slug", $("#Slug").val())
 
         fetch("/Admin/Category/AddData", {
             method: "POST",
@@ -120,4 +137,28 @@
                 });
             })
     }
+
+    function generateSlug(e) {
+        let text = event.target.value;
+        if (text != null) {
+            let str = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+            const replacements = {
+                "đ": "d",
+                "Đ": "D"
+            };
+
+            str = str
+                .replace(/đ/g, 'd')
+                .replace(/Đ/g, 'D')
+                .toLowerCase()
+                .replace(/ /g, '-')
+                .replace(/[^\w-]+/g, '');
+
+            document.getElementById("Slug").value = str;
+            //return str;
+        }
+
+    }
+
 </script>

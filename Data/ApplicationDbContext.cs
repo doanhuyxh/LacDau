@@ -12,6 +12,7 @@ namespace LacDau.Data
         public DbSet<Trademark> Trademark { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<Category> Category { get; set; }
+        public DbSet<SubCategory> SubCategory { get; set; }
         public DbSet<RefreshToken> RefreshToken { get; set; }
         public DbSet<Merchant> Merchant { get; set; }
         public DbSet<Payment> Payment { get; set; }

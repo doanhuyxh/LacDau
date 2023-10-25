@@ -1,0 +1,171 @@
+﻿@{
+    int i = 0;
+}
+<div class="container" id="AppVueSubCategory">
+    <div class="col-12">
+        <span class="btn btn-success float-right" v-on:click="AddSUbCate()"><i class="fa fa-plus-circle"></i></span>
+    </div>
+    <div class="col-12">
+        @if (ViewBag.SubCategory != null && ViewBag.SubCategory.Count > 0)
+        {
+            <table class="table table-hover" id="tableTimeLine">
+                <thead>
+                    <tr>
+                        <th scope="col">STT</th>
+                        <th class="text-center" scope="col">Dang mục</th>
+                        <th class="text-center" scope="col">Slug</th>                        
+                        <th scope="text-nowrap"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.SubCategory)
+                    {
+                        i++;
+                        <tr>
+                            <th scope="row">@i</th>
+                            <td class="text-center">@item.Name</td>
+                            <td class="text-center">@item.Slug</td>
+                            <td class="text-center text-nowrap">
+                                <span class="btn btn-warning" v-on:click="EditSubCategory(@item.Id)">Cập nhật</span>
+                                <span class="btn btn-danger" v-on:click="DeleteSubCategory(@item.Id)">Xóa</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+
+            <p>Danh sách trống</p>
+        }
+    </div>
+
+    <div class="modal fade" id="ModalAddEditSub" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalAddTitle">TimeLine</h5>
+                </div>
+                <div class="modal-body" id="ModalAddContent">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" v-on:click="SaveSub()">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+
+
+    var AppVueSubCategory = new Vue({
+        el: "#AppVueSubCategory",
+        data: {
+            cateId: AppVueCategory.$data.currentViewCate,
+        },
+        watch: {
+
+        },
+
+        computed: {
+
+        },
+        mounted() {
+            this.initData();
+        },
+        methods: {
+            initData() {
+                console.log(this.cateId)
+            },
+            AddSUbCate() {
+                $("#ModalAddContent").load(`/Admin/Category/AddSUbCate`, function () {
+                    $("#ModalAddEditSub").modal("show");
+                    $("#ModalAddTitle").html("Thêm danh mục mới")
+                })
+            },
+            generateSlug(e) {
+                let text = event.target.value;
+                if (text != null) {
+                    let str = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+                    const replacements = {
+                        "đ": "d",
+                        "Đ": "D"
+                    };
+
+                    str = str
+                        .replace(/đ/g, 'd')
+                        .replace(/Đ/g, 'D')
+                        .toLowerCase()
+                        .replace(/ /g, '-')
+                        .replace(/[^\w-]+/g, '');
+
+                    return str;
+                }
+            },
+            SaveSub() {
+
+                let _data = new FormData()
+                _data.append("Name", AppVueSubCategoryData.$data.nameSub)
+                _data.append("Slug", "dấd")
+                _data.append("CategoryId", this.cateId)
+                debugger;
+                fetch("/Admin/Category/SaveSub", {
+                    method: "POST",
+                    body: _data
+                })
+                    .then(res => {
+                        $('#ModalAddEditSub').modal('hide');
+                        console.log(res)
+                        Swal.fire({
+                            title: "Thành công",
+                            icon: 'info',
+                        }).then(r => {
+                            $("#staticBigModel").modal("hide");
+                        })
+                    })
+            },
+            EditSubCategory(id) {
+
+            },
+            DeleteSubCategory(id) {
+                let custhis = this;
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn xóa ?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Xóa',
+                    showCancelButton: true,
+                    cancelButtonText: "Hủy",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/Admin/Category/DeleteSubCate?id=${id}`, {
+                            method: "DELETE"
+                        })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.statusCode) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        icon: 'success',
+                                        title: "Thành công",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then((res) => {
+                                        $("#staticBigModel").modal("hide");
+                                    });
+                                }
+                            })
+                    }
+                })
+            }
+        }
+    })
+</script>

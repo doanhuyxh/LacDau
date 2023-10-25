@@ -14,6 +14,7 @@ namespace LacDau.Models
         public double Amout { get; set; }
         public DateTime Date { get; set; }
         public string PaymentId { get; set; }
+        public string TranRefId { get; set; }
 
         [ForeignKey("PaymentId")]
         public Payment Payment { get; set; }

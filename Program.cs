@@ -30,6 +30,7 @@ builder.Services.AddMvc();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Documentation", Version = "v1" });
+
     c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -80,10 +81,6 @@ builder.Services.AddScoped<UserManager<ApplicationUser>>();
 
 builder.Services.AddScoped<IIdentityDataInitializer, IdentityDataInitializer>();
 
-//add service system
-builder.Services.AddScoped<ICommon, Common>();
-//add send mail
-builder.Services.AddScoped<IEmailGoogle, EmailGoogle>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -177,6 +174,12 @@ builder.Services.AddCors(options =>
     });
 });
 
+
+//add service system
+builder.Services.AddScoped<ICommon, Common>();
+builder.Services.AddScoped<IMomoService, MomoService>();
+//add send mail
+builder.Services.AddScoped<IEmailGoogle, EmailGoogle>();
 
 
 var app = builder.Build();

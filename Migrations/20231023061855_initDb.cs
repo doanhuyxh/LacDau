@@ -60,6 +60,7 @@ namespace LacDau.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -79,8 +80,10 @@ namespace LacDau.Migrations
                     ReturnUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SecreKey = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastUpdateBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastUpdatedByy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -97,7 +100,11 @@ namespace LacDau.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SortIndex = table.Column<int>(type: "int", nullable: false),
                     ParentId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastUpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastUpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -144,6 +151,21 @@ namespace LacDau.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RefreshToken", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SubCategory",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubCategory", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -362,7 +384,8 @@ namespace LacDau.Migrations
                     Status = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Amout = table.Column<double>(type: "float", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PaymentId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    PaymentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TranRefId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -474,6 +497,9 @@ namespace LacDau.Migrations
 
             migrationBuilder.DropTable(
                 name: "RefreshToken");
+
+            migrationBuilder.DropTable(
+                name: "SubCategory");
 
             migrationBuilder.DropTable(
                 name: "Trademark");

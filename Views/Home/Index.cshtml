@@ -1,8 +1,473 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<div class="homepage container">
+    <div class="home-banner-group hover-img">
+        <div class="home-slider-holder">
+            <div class="owl-carousel owl-theme custom-dots" id="js-home-slider">
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+                <a href="lot-chuot.html?id=1"><img src="/media/banner/04_Jul4b2820f0c4fe29e2d289589b90e47f4c.png" alt="banner" width="955" height="579" class="owl-lazy" /></a>
+
+                <a href="gaming-gear.html?id=9"><img src="/media/banner/09_Jul9860edbd0f637428e39fde95121313ed.png" alt="banner" width="1433" height="869" class="owl-lazy" /></a>
+
+            </div>
+        </div>
+
+        <div class="home-right-holder">
+
+            <a href="mo-hinh.html?id=2">
+                <img src="/media/banner/04_Jul58a3f59ace6732aceb452a6e387c0c20.png" alt="banner" width="310" height="185" class="lazy" />
+            </a>
+
+            <a href="ban-phim-gaming.html?id=3">
+                <img src="/media/banner/04_Jul7f64f21fb6ba6d30b7932b6ad017b870.png" alt="banner" width="310" height="185" class="lazy" />
+            </a>
+
+            <a href="ban-gaming.html?id=4">
+                <img src="/media/banner/04_Julbc98282e1bb9acf041f8c94b05ccdfcb.png" alt="banner" width="310" height="185" class="lazy" />
+            </a>
+
+        </div>
+
+        <div class="home-under-holder">
+
+            <a href="index.html?id=5">
+                <img src="/media/banner/04_Jula2b2fecb48c5967badfe4d137f8508ec.png" alt="banner" width="418" height="250" class="lazy" />
+            </a>
+
+            <a href="loa-micro-webcam.html?id=6">
+                <img src="/media/banner/04_Jul476c025120f6806e9d46a90f17cebbdf.png" alt="banner" width="418" height="250" class="lazy" />
+            </a>
+
+            <a href="tan-nhiet-cooling.html?id=7">
+                <img src="/media/banner/04_Jul6bacdcd6a63d8b6a4e46c8337fc12342.png" alt="banner" width="418" height="250" class="lazy" />
+            </a>
+
+        </div>
+    </div>
+
+
+    <div class="home-collection-group lazy" data-bg=" url(/static/assets/default/images/home-bg-collection.png)">
+        <div class="box-title-group" id="js-collection-list">
+
+            <a href="collection/sale-back-to-school.html" data-id="1">HÀNG SALE THANH LÝ ĐẶC BIỆT MỪNG 200.000 LIKE FANPAGE FACEBOOK</a>
+
+            <a href="collection/chuot-gaming.html" data-id="3">CHUỘT GAMING</a>
+
+            <a href="collection/ban-phim-gaming.html" data-id="2">BÀN PHÍM GAMING</a>
+
+            <a href="collection/tai-nghe.html" data-id="4">TAI NGHE</a>
+
+            <a href="collection/loa.html" data-id="5">LOA</a>
+
+            <a href="collection/ghe-gaming.html" data-id="7">GHẾ GAMING</a>
+
+            <a href="collection/ban-gaming.html" data-id="6">BÀN GAMING</a>
+
+        </div>
+
+        <div class="p-container position-relative" id="js-collection-holder"><!-- // ajax Get collection --></div>
+
+        <a href="#" class="btn-collection" id="js-collection-link" title="">XEM THÊM <i class="fa fa-long-arrow-alt-right"></i></a>
+    </div>
+
+
+    <div class="home-p-category-group">
+        <p class="box-title">XU HƯỚNG MUA SẮM</p>
+
+        <div class="d-flex flex-wrap">
+            <a href="ban-phim-gaming.html" class="item">
+                <img src="/media/lib/26-07-2022/1.png" alt="" width="350" height="170" class="lazy" />
+
+                <p class="text">
+                    <span>Bàn phím gaming</span>
+                    <span class="green">Giảm đến 30%</span>
+
+                    <i class="icon-arrow"></i>
+                </p>
+            </a>
+
+            <a href="chuot-gaming.html" class="item">
+                <img src="/media/lib/06-07-2022/group75.png" alt="" width="350" height="170" class="lazy" />
+
+                <p class="text">
+                    <span>Chuột gaming</span>
+                    <span class="green">Ưu đãi chỉ từ 100k</span>
+
+                    <i class="icon-arrow"></i>
+                </p>
+            </a>
+
+            <a href="tai-nghe.html" class="item">
+                <img src="/media/lib/26-07-2022/2.png" alt="" width="350" height="170" class="lazy" />
+
+                <p class="text">
+                    <span>Tai nghe gaming</span>
+                    <span class="green">Ưu đãi chỉ từ 100k</span>
+
+                    <i class="icon-arrow"></i>
+                </p>
+            </a>
+
+            <a href="loa-may-tinh.html" class="item">
+                <img src="/media/lib/26-07-2022/3.png" alt="" width="350" height="170" class="lazy" />
+
+                <p class="text">
+                    <span>Loa gaming</span>
+                    <span class="green">Giảm đến 40%</span>
+
+                    <i class="icon-arrow"></i>
+                </p>
+            </a>
+        </div>
+    </div>
+
+    <script>var category_to_fetch = [];</script>
+
+
+    <script>category_to_fetch.push('2');</script>
+
+    <div class="home-box-group">
+        <div class="box-title-group">
+            <h2 class="title">LÓT CHUỘT</h2>
+
+            <div class="cat-list-group">
+
+                <a href="lot-chuot-co-80x30.html"><h3 class="inherit">LÓT CHUỘT CỠ 80X30</h3></a>
+
+                <a href="lot-chuot-co-90x30.html"><h3 class="inherit">LÓT CHUỘT CỠ 90X40</h3></a>
+
+                <a href="lot-chuot-co-45x40.html"><h3 class="inherit">LÓT CHUỘT CỠ 45X40</h3></a>
+
+                <a href="lot-chuot-co-80x40.html"><h3 class="inherit">LÓT CHUỘT CỠ 80X40</h3></a>
+
+
+                <a href="lot-chuot.html" class="btn-view-more">XEM THÊM <i class="fa fa-long-arrow-alt-right"></i></a>
+            </div>
+        </div>
+
+        <div class="p-container position-relative" id="js-product-2"><!-- // Get ProductHotList --></div>
+    </div>
+
+
+
+    <script>category_to_fetch.push('1');</script>
+
+    <div class="home-box-group">
+        <div class="box-title-group">
+            <h2 class="title">GAMING GEAR</h2>
+
+            <div class="cat-list-group">
+
+                <a href="ban-phim-gaming.html"><h3 class="inherit">BÀN PHÍM GAMING</h3></a>
+
+                <a href="chuot-gaming.html"><h3 class="inherit">CHUỘT GAMING</h3></a>
+
+                <a href="tai-nghe.html"><h3 class="inherit">TAI NGHE</h3></a>
+
+                <a href="tay-cam-choi-game.html"><h3 class="inherit">TAY CẦM CHƠI GAME</h3></a>
+
+
+                <a href="gaming-gear.html" class="btn-view-more">XEM THÊM <i class="fa fa-long-arrow-alt-right"></i></a>
+            </div>
+        </div>
+
+        <div class="p-container position-relative" id="js-product-1"><!-- // Get ProductHotList --></div>
+    </div>
+
+
+
+    <script>category_to_fetch.push('3');</script>
+
+    <div class="home-box-group">
+        <div class="box-title-group">
+            <h2 class="title">PHỤ KIỆN MÁY TÍNH</h2>
+
+            <div class="cat-list-group">
+
+                <a href="keycap-phim-co-bo.html"><h3 class="inherit">KEYCAP PHÍM CƠ BỘ</h3></a>
+
+                <a href="keycap-phim-co-le.html"><h3 class="inherit">KEYCAP PHÍM CƠ LẺ</h3></a>
+
+                <a href="ke-tay-ban-phim.html"><h3 class="inherit">KÊ TAY BÀN PHÍM</h3></a>
+
+                <a href="bungee-do-day-chuot.html"><h3 class="inherit">BUNGEE - ĐỠ DÂY CHUỘT</h3></a>
+
+
+                <a href="phu-kien-may-tinh.html" class="btn-view-more">XEM THÊM <i class="fa fa-long-arrow-alt-right"></i></a>
+            </div>
+        </div>
+
+        <div class="p-container position-relative" id="js-product-3"><!-- // Get ProductHotList --></div>
+    </div>
+
+
+
+    <script>category_to_fetch.push('6');</script>
+
+    <div class="home-box-group">
+        <div class="box-title-group">
+            <h2 class="title">MÔ HÌNH</h2>
+
+            <div class="cat-list-group">
+
+                <a href="mo-hinh-anime.html"><h3 class="inherit">MÔ HÌNH ANIME</h3></a>
+
+                <a href="mo-hinh-xe-o-to.html"><h3 class="inherit">MÔ HÌNH XE Ô TÔ</h3></a>
+
+                <a href="mo-hinh-sieu-anh-hung.html"><h3 class="inherit">MÔ HÌNH SIÊU ANH HÙNG</h3></a>
+
+                <a href="mo-hinh-lac-dau.html"><h3 class="inherit">MÔ HÌNH LẮC ĐẦU</h3></a>
+
+
+                <a href="mo-hinh.html" class="btn-view-more">XEM THÊM <i class="fa fa-long-arrow-alt-right"></i></a>
+            </div>
+        </div>
+
+        <div class="p-container position-relative" id="js-product-6"><!-- // Get ProductHotList --></div>
+    </div>
+
+
+
+    <script>category_to_fetch.push('7');</script>
+
+    <div class="home-box-group">
+        <div class="box-title-group">
+            <h2 class="title">PHỤ KIỆN TRANG TRÍ</h2>
+
+            <div class="cat-list-group">
+
+                <a href="do-decor.html"><h3 class="inherit">ĐỒ DECOR</h3></a>
+
+                <a href="day-led-thanh-led.html"><h3 class="inherit">DÂY LED - THANH LED</h3></a>
+
+                <a href="dong-ho.html"><h3 class="inherit">ĐỒNG HỒ</h3></a>
+
+                <a href="den-ban-den-ngu.html"><h3 class="inherit">ĐÈN BÀN, ĐÈN NGỦ</h3></a>
+
+
+                <a href="phu-kien-trang-tri.html" class="btn-view-more">XEM THÊM <i class="fa fa-long-arrow-alt-right"></i></a>
+            </div>
+        </div>
+
+        <div class="p-container position-relative" id="js-product-7"><!-- // Get ProductHotList --></div>
+    </div>
+
+
+
+    <script>category_to_fetch.push('4');</script>
+
+    <div class="home-box-group">
+        <div class="box-title-group">
+            <h2 class="title">LOA, MICRO, WEBCAM</h2>
+
+            <div class="cat-list-group">
+
+                <a href="loa-may-tinh.html"><h3 class="inherit">LOA MÁY TÍNH</h3></a>
+
+                <a href="loa-blutooth.html"><h3 class="inherit">LOA BLUTOOTH</h3></a>
+
+                <a href="microphone-thu-am.html"><h3 class="inherit">MICROPHONE THU ÂM</h3></a>
+
+                <a href="webcam-may-tinh.html"><h3 class="inherit">WEBCAM MÁY TÍNH</h3></a>
+
+
+                <a href="loa-micro-webcam.html" class="btn-view-more">XEM THÊM <i class="fa fa-long-arrow-alt-right"></i></a>
+            </div>
+        </div>
+
+        <div class="p-container position-relative" id="js-product-4"><!-- // Get ProductHotList --></div>
+    </div>
+
+
+
+    <script>category_to_fetch.push('9');</script>
+
+    <div class="home-box-group">
+        <div class="box-title-group">
+            <h2 class="title">GHẾ GAMING</h2>
+
+            <div class="cat-list-group">
+
+                <a href="ghe-cong-thai-hoc.html"><h3 class="inherit">GHẾ CÔNG THÁI HỌC</h3></a>
+
+                <a href="ghe-e-dra.html"><h3 class="inherit">GHẾ E-DRA</h3></a>
+
+                <a href="ghe-warrior.html"><h3 class="inherit">GHẾ WARRIOR</h3></a>
+
+                <a href="ghe-viking.html"><h3 class="inherit">GHẾ VIKING</h3></a>
+
+
+                <a href="ghe-gaming.html" class="btn-view-more">XEM THÊM <i class="fa fa-long-arrow-alt-right"></i></a>
+            </div>
+        </div>
+
+        <div class="p-container position-relative" id="js-product-9"><!-- // Get ProductHotList --></div>
+    </div>
+
+
+
+    <script>category_to_fetch.push('8');</script>
+
+    <div class="home-box-group">
+        <div class="box-title-group">
+            <h2 class="title">BÀN GAMING</h2>
+
+            <div class="cat-list-group">
+
+                <a href="ban-gaming-e-dra.html"><h3 class="inherit">BÀN GAMING E-DRA</h3></a>
+
+                <a href="ban-gaming-warrior.html"><h3 class="inherit">BÀN GAMING WARRIOR</h3></a>
+
+                <a href="ban-gaming-mat-go.html"><h3 class="inherit">BÀN GAMING MẶT GỖ</h3></a>
+
+                <a href="ban-gaming-mat-kinh.html"><h3 class="inherit">BÀN GAMING MẶT KÍNH</h3></a>
+
+
+                <a href="ban-gaming.html" class="btn-view-more">XEM THÊM <i class="fa fa-long-arrow-alt-right"></i></a>
+            </div>
+        </div>
+
+        <div class="p-container position-relative" id="js-product-8"><!-- // Get ProductHotList --></div>
+    </div>
+
+
+
+
+
 </div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#js-home-slider').owlCarousel({
+            items: 1,
+            loop: true,
+            margin: 10,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            autoplaySpeed: 1000,
+            autoplayHoverPause: true,
+            dots: true,
+            nav: false,
+            lazyLoad: true
+        });
+
+        _clickCollectionBtn();
+
+        _checkScreen();
+
+        $(window).scroll(function () {
+            _checkScreen();
+        });
+    });
+
+    if (typeof category_to_fetch != "undefined") {
+        //console.log(category_to_fetch);
+        lazy_load_group = category_to_fetch.map(function (id) {
+            return {
+                id: id,
+                target: '#js-product-' + id,
+                loadFn: function () {
+                    getProductList(id)
+                },
+            }
+        });
+    }
+
+    function getProductList(cat_id) {
+        var holder = '#js-product-' + cat_id;
+
+        $(holder).html(`<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>`)
+
+        var params = {
+            action_type: "product-list",
+            hotType: "hot",
+            category: cat_id,
+            sort: "order",
+            page: 1
+        };
+
+        Hura.Ajax.get("product", params).then(function (data) {
+            //console.log(data);
+            if (data.total > 0) {
+                var html = Hura.Template.parse(productTpl, data.list);
+                Hura.Template.render(holder, '<div class="owl-carousel owl-theme custom-nav">' + html + '</div>');
+                run_carousel(holder);
+            } else {
+                $(holder).html('<p class="font-900 m-0 text-30 text-center" style="line-height: 300px">Danh mục đang cập nhật...!</p>')
+            }
+        })
+    }
+
+    function _checkScreen() {
+        if (isOnScreen($('.home-collection-group')) && $('.home-collection-group').hasClass('loaded') == false) {
+
+            $('#js-collection-list a:first-child').click();
+
+            $('.home-collection-group').addClass('loaded');
+        }
+    }
+
+    function _clickCollectionBtn() {
+        $('#js-collection-list a').click(function () {
+            event.preventDefault();
+            var id = $(this).attr('data-id');
+            var title = $(this).text();
+            var href = $(this).attr('href');
+
+            $('#js-collection-link').attr('title', title);
+            $('#js-collection-link').attr('href', href);
+
+            getProductCollection(id);
+        });
+    }
+
+    function getProductCollection(collection_id) {
+        var holder = '#js-collection-holder';
+
+        $(holder).html(`<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>`)
+
+        var params = {
+            action_type: "list",
+            id: collection_id,
+            show: 10,
+            sort: "order",
+            page: 1
+        };
+
+        Hura.Ajax.get("collection", params).then(function (data) {
+            //console.log(data);
+            if (data.total > 0) {
+                var html = Hura.Template.parse(productTpl, data.list);
+                Hura.Template.render(holder, '<div class="owl-carousel owl-theme custom-nav">' + html + '</div>');
+                run_carousel(holder);
+            } else {
+                $(holder).html('<p class="font-900 m-0 text-30 text-center text-white" style="line-height: 300px">Bộ sưu tập đang cập nhật...!</p>')
+            }
+        })
+    }
+
+    function run_carousel(holder) {
+        $(holder + ' .owl-carousel').owlCarousel({
+            margin: 12,
+            lazyLoad: true,
+            loop: false,
+            autoplay: true,
+            autoplayTimeout: 4000,
+            autoplaySpeed: 1500,
+            autoplayHoverPause: true,
+            dots: false,
+            nav: true,
+            navText: ["<i class='arrow arrow-left'></i>", "<i class='arrow'></i>"],
+            items: 5,
+            responsive: {
+                0: {
+                    items: 5
+                },
+                1620: {
+                    items: 6
+                }
+            }
+        });
+    }
+</script>
+
