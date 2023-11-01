@@ -114,7 +114,6 @@
                 _data.append("Name", AppVueSubCategoryData.$data.nameSub)
                 _data.append("Slug", "dấd")
                 _data.append("CategoryId", this.cateId)
-                debugger;
                 fetch("/Admin/Category/SaveSub", {
                     method: "POST",
                     body: _data

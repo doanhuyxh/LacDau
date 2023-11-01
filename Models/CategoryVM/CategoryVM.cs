@@ -1,10 +1,16 @@
-﻿namespace LacDau.Models.CategoryVM
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LacDau.Models.CategoryVM
 {
     public class CategoryVM
     {
         public int Id { get; set; }
+        [Display(Name = "Tên loại")]
         public string Name { get; set; }
         public string Slug { get; set; }
+        public string? Icon { get; set; }
+        [Display(Name = "ảnh icon")]
+        public IFormFile? IconFile { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }
 
@@ -14,6 +20,7 @@
             {
                 Id = category.Id,
                 Name = category.Name,
+                Icon = category.Icon,
                 CreatedDate = category.CreatedDate,
                 Slug = category.Slug,
                 IsDeleted = category.IsDeleted,
@@ -26,6 +33,7 @@
             {
                 Id = vm.Id,
                 Name = vm.Name,
+                Icon =vm.Icon??"",
                 Slug = vm.Slug,
                 CreatedDate = vm.CreatedDate,
                 IsDeleted = vm.IsDeleted,

@@ -203,6 +203,11 @@ app.UseStaticFiles();
 
 app.UseEndpoints(endpoints =>
 {
+    endpoints.MapControllerRoute(
+        name: "category",
+        pattern: "{slug}",
+        defaults: new { controller = "Home", action = "CategoryProduct" }
+    );
 
     endpoints.MapControllerRoute(
         name: "default",

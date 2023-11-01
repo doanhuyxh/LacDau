@@ -74,7 +74,7 @@
             </div>
         </div>
     </div>
-    </div>
+    
     <div class="global-header-block" style="display: none;"></div>
 
 
@@ -146,7 +146,7 @@
 
             $("#js-header-cart").hover(function () {
                 if (!$("#js-header-cart-holder").hasClass("loaded")) {
-                    $("#js-header-cart-holder").load("/cart?type=ajax");
+                    $("#js-header-cart-holder").load("/Home/Card");
                     $("#js-header-cart-holder").addClass("loaded");
                 }
             });

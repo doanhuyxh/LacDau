@@ -30,6 +30,27 @@ namespace LacDau.Services
             return result.ToString();
         }
 
+        public async Task<string> UploadIconCategoryAsync(IFormFile file)
+        {
+            string path = string.Empty;
+
+            if (file != null)
+            {
+                string uploadsFolder = Path.Combine(_iHostingEnvironment.ContentRootPath, "wwwroot/media/category");
+
+                if (file.FileName == null)
+                    path = "icon.png";
+                else
+                    path = DateTime.Now.Ticks.ToString() + ".png";
+                string filePath = Path.Combine(uploadsFolder, path);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+            }
+            return $"/media/category/{path}";
+        }
+
         public async Task<string> UploadTrademarkAsync(IFormFile file)
         {
             string path = string.Empty;
@@ -52,5 +73,5 @@ namespace LacDau.Services
         }
 
     }
-}
 
+}

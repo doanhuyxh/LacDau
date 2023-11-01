@@ -7,6 +7,7 @@
             <thead class="text-dark">
                 <tr>
                     <th class="text-center">STT</th>
+                    <th class="text-center">Icon</th>
                     <th class="text-center">Tên danh mục</th>
                     <th class="text-center">Slug</th>
                     <th class="text-center">Danh mục phụ</th>
@@ -15,6 +16,7 @@
             </thead>
             <tr v-for="(item, index) in data">
                 <td class="text-center">{{index+1}}</td>
+                <td class="text-center"><img :src="item.icon" /></td>
                 <td class="text-center">{{item.name}}</td>
                 <td class="text-center">{{item.slug}}</td>
                 <th class="text-center text-wrap"><span class="btn btn-info opacity-5" v-on:click="ViewSubCate(item.id)"><i class="fa fa-bars"></i></span></th>
@@ -116,6 +118,7 @@
         _data.append("CreatedDate", $("#CreatedDate").val())
         _data.append("Name", $("#Name").val())
         _data.append("Slug", $("#Slug").val())
+        _data.append("IconFile", document.getElementById("IconFile").files[0])
 
         fetch("/Admin/Category/AddData", {
             method: "POST",

@@ -1,0 +1,24 @@
+﻿@model IEnumerable<LacDau.Models.CategoryVM.ListCategory>
+
+@foreach (var item in Model)
+{
+    <div class="item">
+        <a href="/@item.Slug" class="cat-1">
+            <i class="cat-thum lazy" data-bg="url(@item.Icon)"></i>
+            <span class="cat-title">@item.Name</span>
+        </a>
+
+        <div class="sub-menu">
+
+            @foreach(var subItem in item.ListSubCategory)
+            {
+                <div class="sub-item">
+                    <a href="@subItem.Slug" class="cat-2">@subItem.Name</a>
+
+                </div>
+            }
+
+        </div>
+    </div>
+
+}

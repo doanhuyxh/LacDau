@@ -1,5 +1,9 @@
-﻿using LacDau.Models;
+﻿using LacDau.Data;
+using LacDau.Models;
+using LacDau.Models.CategoryVM;
+using LacDau.Models.SubCategoryVM;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace LacDau.Controllers
@@ -7,26 +11,41 @@ namespace LacDau.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
             return View();
         }
-
-        public IActionResult Privacy()
+        public async Task<IActionResult> CategoryProduct(string slug)
         {
+            slug = slug.ToLower();
+
+            if(slug == "admin")
+            {
+                return Redirect("Admin/Dashboard/Index");
+            }
+            
+            Category cate = await _context.Category.FirstOrDefaultAsync(c => c.Slug == slug);
+            SubCategory subCate = await _context.SubCategory.FirstOrDefaultAsync(c => c.Slug == slug);
+
+            if(cate == null && subCate == null) {
+                return View("NotFound");
+            }
+
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public IActionResult Card()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            ViewBag.user = HttpContext.User.Identity.Name;
+            return PartialView("_card");
         }
     }
 }

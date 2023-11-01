@@ -7,6 +7,7 @@ using LacDau.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using LacDau.Models.SubCategoryVM;
+using LacDau.Services;
 
 namespace LacDau.Areas.Admin.Controllers
 {
@@ -15,9 +16,11 @@ namespace LacDau.Areas.Admin.Controllers
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public CategoryController(ApplicationDbContext context)
+        private readonly ICommon _icommon;
+        public CategoryController(ApplicationDbContext context, ICommon common)
         {
             _context = context;
+            _icommon = common;
         }
         public IActionResult Index()
         {
@@ -52,6 +55,11 @@ namespace LacDau.Areas.Admin.Controllers
                     Category Category = new Category();
                     if (vm.Id == 0)
                     {
+                        if(vm.IconFile != null)
+                        {
+                            vm.Icon = await _icommon.UploadIconCategoryAsync(vm.IconFile);
+                        }
+
                         Category = vm;
                         Category.CreatedDate = DateTime.Now;
                         _context.Add(Category);
@@ -65,6 +73,10 @@ namespace LacDau.Areas.Admin.Controllers
                     else
                     {
                         Category = await _context.Category.FirstOrDefaultAsync(i => i.Id == vm.Id);
+                        if (vm.IconFile != null)
+                        {
+                            vm.Icon = await _icommon.UploadIconCategoryAsync(vm.IconFile);
+                        }
                         vm.CreatedDate = Category.CreatedDate;
                         _context.Entry(Category).CurrentValues.SetValues(vm);
                         await _context.SaveChangesAsync();
