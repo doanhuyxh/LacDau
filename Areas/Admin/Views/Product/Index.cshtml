@@ -7,7 +7,9 @@
             <thead class="text-dark">
                 <tr>
                     <th class="text-center">STT</th>
-                    <th class="text-center">Tên danh mục</th>
+                    <th class="text-center">Tên sản phẩm</th>
+                    <th class="text-center">Video</th>
+                    <th class="text-center">Hiển thị trang home</th>
                     <th class="text-center"></th>
                 </tr>
             </thead>
@@ -15,6 +17,17 @@
                 <td class="text-center">{{index+1}}</td>
                 <td class="text-center">{{item.name}}</td>
                 <td class="text-center">
+                    <video height="150" controls>
+                        <source :src="item.video" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </td>
+                <td class="text-center">
+                    <span v-if="item.isHome" class="btn btn-success">o</span>
+                    <span v-else class="btn btn-danger">o</span>
+                </td>
+                <td class="text-center">
+                    <span class="btn btn-warning" v-on:click="ViewProduct(item.id)"><i class="fas fa-eye" style="color: #51371f;"></i></span>
                     <span class="btn btn-warning" v-on:click="EditProduct(item.id)">Cập nhật</span>
                     <span class="btn btn-danger" v-on:click="DeleteProduct(item.id)">Xóa</span>
                 </td>
@@ -49,13 +62,13 @@
             AddProduct() {
                 $("#BigModelContent").load(`/Admin/Product/AddData`, function () {
                     $("#staticBigModel").modal("show");
-                    $("#staticBigModellTitle").html("Thêm danh mục mới")
+                    $("#staticBigModellTitle").html("Thêm sản phẩm mới")
                 })
             },
             EditProduct(id) {
                 $("#BigModelContent").load(`/Admin/Product/EditData?id=${id}`, function () {
                     $("#staticBigModel").modal("show");
-                    $("#staticBigModellTitle").html("Cập nhật danh mục")
+                    $("#staticBigModellTitle").html("Cập nhật thông tin")
                 })
             },
             DeleteProduct(id) {
@@ -71,22 +84,28 @@
                     cancelButtonText: "Hủy",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        fetch(`/Admin/Product/DeleteProduct?id=${id}`, {
+                        fetch(`/Admin/Product/DeleteData?id=${id}`, {
                             method: "DELETE"
                         })
-                            .then(res => res.json())
                             .then(data => {
-                                if (data.statusCode) {
-                                    Swal.fire({
-                                        position: 'center',
-                                        icon: 'success',
-                                        title: "Thành công",
-                                        showConfirmButton: false,
-                                        timer: 1500
-                                    }).then((res) => { custhis.initData() });
-                                }
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: "Thành công",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then((res) => {
+                                    let index = custhis.data.findIndex(item => item.id === id);
+                                    index !== -1 && custhis.data.splice(index, 1)
+                                });
                             })
                     }
+                })
+            },
+            ViewProduct(id) {
+                $("#BigModelContent").load(`/Admin/Product/GetById?id=${id}`, function () {
+                    $("#staticBigModel").modal("show");
+                    $("#staticBigModellTitle").html("Sản phẩm")
                 })
             }
         }
@@ -99,8 +118,19 @@
         _data.append("Id", $("#Id").val())
         _data.append("CreatedDate", $("#CreatedDate").val())
         _data.append("Name", $("#Name").val())
+        _data.append("Slug", $("#Slug").val())
+        _data.append("Description", $("#Description").val())
+        _data.append("TrademarkId", $("#TrademarkId").val())
+        _data.append("CategoryId", $("#CategoryId").val())
+        _data.append("CategoryId", $("#CategoryId").val())
+        _data.append("Img1", $("#Img1").val())
+        _data.append("Img2", $("#Img2").val())
+        _data.append("Video", $("#Video").val())
+        _data.append("Img1File", document.getElementById("Img1File").files[0])
+        _data.append("Img2File", document.getElementById("Img2File").files[0])
+        _data.append("VideoFile", document.getElementById("VideoFile").files[0])
 
-        fetch("/Admin/Product/AddData", {
+        fetch("/Admin/Product/SaveData", {
             method: "POST",
             headers: {
                 processData: false,
@@ -119,5 +149,18 @@
                     AppVueProduct.initData();
                 });
             })
+    }
+
+    function slugify(text) {
+        let slug = text
+            .toString()                     // Chuyển đổi sang chuỗi
+            .toLowerCase()                  // Chuyển đổi sang chữ thường
+            .replace(/\s+/g, '-')           // Thay thế khoảng trắng bằng dấu gạch ngang
+            .replace(/[^\w-]+/g, '')        // Loại bỏ các ký tự không phải chữ cái, số, dấu gạch ngang
+            .replace(/--+/g, '-')           // Loại bỏ các dấu gạch ngang liền kề
+            .replace(/^-+/, '')             // Loại bỏ dấu gạch ngang ở đầu chuỗi
+            .replace(/-+$/, '');            // Loại bỏ dấu gạch ngang ở cuối chuỗi
+
+        $("#Slug").val(slug)
     }
 </script>

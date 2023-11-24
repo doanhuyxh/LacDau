@@ -7,6 +7,7 @@ namespace LacDau.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Slug { get; set; }
         public string Description { get; set; }
         public string Img1 { get; set; } = string.Empty;
         public string Img2 { get; set; } = string.Empty;

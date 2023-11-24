@@ -84,7 +84,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
            .AddEntityFrameworkStores<ApplicationDbContext>()
            .AddDefaultTokenProviders();
 
-builder.Services.AddMemoryCache();
+builder.Services.AddMemoryCache(option =>
+{
+    option.ExpirationScanFrequency = TimeSpan.FromSeconds(30);
+});
 
 builder.Services.AddScoped<UserManager<ApplicationUser>>();
 

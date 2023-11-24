@@ -1,0 +1,55 @@
+﻿@model LacDau.Models.ProductVM.ProductVM;
+
+<table class="table table-responsive">
+    <tbody>
+        <tr>
+            <th class="text-nowrap">Tên sản phẩm</th>
+            <td>@Model.Name</td>
+        </tr>
+        <tr>
+            <th>Slug</th>
+            <td>@Model.Slug</td>
+        </tr>
+        <tr>
+            <th>Thương hiệu</th>
+            <td>@Model.TrademarkName</td>
+        </tr>
+        <tr>
+            <th>Danh mục</th>
+            <td>@Model.CategoryName</td>
+        </tr>
+        <tr>
+            <th>Chi tiết</th>
+            <td>@Model.Description</td>
+        </tr>
+        <tr>
+            <th>Ở trang chủ</th>
+            <td>@if (Model.IsHome)
+                {
+                    <span>Có</span>
+                }
+                else
+                {
+                    <span>Không</span>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>Ảnh 1</th>
+            <td><img src="@Model.Img1" class="w-50"/></td>
+        </tr>
+        <tr>
+            <th>Ảnh 2</th>
+            <td><img src="@Model.Img2" class="w-50" /></td>
+        </tr>
+        <tr>
+            <th>Video</th>
+            <td>
+                <video height="360" controls>
+                    <source src="@Model.Video" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </td>
+        </tr>
+    </tbody>
+</table>

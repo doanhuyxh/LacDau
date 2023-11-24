@@ -444,6 +444,10 @@ namespace LacDau.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("TrademarkId")
                         .HasColumnType("int");
 

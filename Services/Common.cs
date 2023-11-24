@@ -72,6 +72,48 @@ namespace LacDau.Services
             return $"/upload/trademark/{path}";
         }
 
+        public async Task<string> UploadFileImgProductAsync(IFormFile file)
+        {
+            string path = string.Empty;
+
+            if (file != null)
+            {
+                string uploadsFolder = Path.Combine(_iHostingEnvironment.ContentRootPath, "wwwroot/upload/productPicture");
+
+                if (file.FileName == null)
+                    path = "icon.png";
+                else
+                    path = DateTime.Now.Ticks.ToString() + ".png";
+                string filePath = Path.Combine(uploadsFolder, path);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+            }
+            return $"/upload/productPicture/{path}";
+        }
+
+        public async Task<string> UploadFileVideoProductAsync(IFormFile file)
+        {
+            string path = string.Empty;
+
+            if (file != null)
+            {
+                string uploadsFolder = Path.Combine(_iHostingEnvironment.ContentRootPath, "wwwroot/upload/productVideo");
+
+                if (file.FileName == null)
+                    path = "icon.png";
+                else
+                    path = DateTime.Now.Ticks.ToString() + Path.GetExtension(file.FileName);
+                string filePath = Path.Combine(uploadsFolder, path);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+            }
+            return $"/upload/productVideo/{path}";
+        }
+
     }
 
 }
