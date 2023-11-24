@@ -24,7 +24,7 @@ namespace LacDau.Areas.Api
         {
             return Ok();
         }
-
+        [HttpGet]
         public IActionResult GetPaging([FromQuery] BasePagingQuery query)
         {
             return Ok();

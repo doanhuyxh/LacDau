@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Caching;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,17 +23,15 @@ var configuration = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
-// Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddControllersWithViews();
-builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
-builder.Services.AddMvc();
+
 //api controller
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "API Documentation", Version = "v1" });
 
     c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+
+    c.EnableAnnotations();
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -67,15 +67,24 @@ builder.Services.AddSwaggerGen(c =>
     });
 
 
+
 });
+
+// Add services to the container.
+builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddMvc();
 
 //Add connetdatabase
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(configuration.GetConnectionString("MSSQL")));
+        options.UseSqlServer(configuration.GetConnectionString("MSSQL")?? "Data Source=127.0.0.1;Initial Catalog=WebAppLacDau;Persist Security Info=True;TrustServerCertificate=True; User ID=sa;Password=Admin123@"));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
            .AddEntityFrameworkStores<ApplicationDbContext>()
            .AddDefaultTokenProviders();
+
+builder.Services.AddMemoryCache();
 
 builder.Services.AddScoped<UserManager<ApplicationUser>>();
 
@@ -201,6 +210,25 @@ app.UseAuthorization();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+//Đặt cấu hình Swagger UI ngay từ root URL
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Documentation v1");
+    c.RoutePrefix = "api";
+    c.DocumentTitle = "API Documentation";
+    c.DocExpansion(DocExpansion.List);
+    c.DisplayOperationId();
+    c.DisplayRequestDuration();
+    c.EnableFilter();
+    c.ShowExtensions();
+    c.EnableValidator();
+    c.DefaultModelExpandDepth(0);
+    c.DefaultModelRendering(ModelRendering.Example);
+    //c.OAuthUseBasicAuthenticationWithAccessCodeGrant();
+
+});
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
@@ -221,27 +249,6 @@ app.UseEndpoints(endpoints =>
 });
 
 
-//Đặt cấu hình Swagger UI ngay từ root URL
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Documentation v1");
-    c.RoutePrefix = "api";
-    c.DocumentTitle = "API Documentation";
-    c.DocExpansion(DocExpansion.List);
-    c.DisplayOperationId();
-    c.DisplayRequestDuration();
-    c.EnableFilter();
-    c.ShowExtensions();
-    c.EnableValidator();
-    c.DefaultModelExpandDepth(0);
-    c.DefaultModelRendering(ModelRendering.Example);
-    c.DefaultModelsExpandDepth(0);
-    c.DisplayRequestDuration();
-    c.OAuthUseBasicAuthenticationWithAccessCodeGrant();
-    c.EnableFilter();
-
-});
 
 app.MapControllers();
 app.MapRazorPages();

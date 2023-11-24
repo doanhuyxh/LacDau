@@ -2,6 +2,7 @@
 using LacDau.Models;
 using LacDau.Models.AccountViewModels;
 using LacDau.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -12,8 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
-
+    
 namespace LacDau.Areas.Api
 {
     [Route("api/[controller]")]
@@ -111,7 +111,7 @@ namespace LacDau.Areas.Api
                     if (validedToken is JwtSecurityToken jwtSecurityToken)
                     {
                         var rs = jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.CurrentCultureIgnoreCase);
-                        if (rs == null)
+                        if (rs == false)
                         {
                             return BadRequest();
                         }
@@ -161,7 +161,7 @@ namespace LacDau.Areas.Api
                         });
                     }
 
-                    var jwi = tokenInVerification.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
+                    var jwi = tokenInVerification.Claims.FirstOrDefault(x => x.Type == System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Jti).Value;
                     if (jwi != store.JwtId)
                     {
                         return BadRequest(new JsonResultVM
@@ -207,7 +207,6 @@ namespace LacDau.Areas.Api
             }
 
         }
-
         private DateTime UnixTimeStampeToDate(long unixTimeStamp)
         {
             var dateTimeVal = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
@@ -225,11 +224,11 @@ namespace LacDau.Areas.Api
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim("Id", user.Id),
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Name, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToUniversalTime().ToString()),
+                    new Claim(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub, user.Email),
+                    new Claim(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Name, user.UserName),
+                    new Claim(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Iat, DateTime.Now.ToUniversalTime().ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddSeconds(double.Parse(_config["JwtConfig:ExpiresTimeFresh"])),
                 SigningCredentials = new SigningCredentials(authenKey, SecurityAlgorithms.HmacSha256Signature),

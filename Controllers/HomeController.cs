@@ -31,7 +31,11 @@ namespace LacDau.Controllers
             {
                 return Redirect("Admin/Dashboard/Index");
             }
-            
+            if(slug == "api")
+            {
+                return Redirect("/api/index.html");
+            }
+
             Category cate = await _context.Category.FirstOrDefaultAsync(c => c.Slug == slug);
             SubCategory subCate = await _context.SubCategory.FirstOrDefaultAsync(c => c.Slug == slug);
 

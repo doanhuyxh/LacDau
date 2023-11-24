@@ -1,13 +1,11 @@
 ﻿using LacDau.Data;
 using LacDau.Models;
 using LacDau.Models.CategoryVM;
-using LacDau.Models.ProductVM;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using System.Security.Claims;
 
 namespace LacDau.Areas.Api
@@ -15,14 +13,12 @@ namespace LacDau.Areas.Api
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class ProductAPIController : ControllerBase
+    public class CategoryAPIController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly IMemoryCache _memoryCache;
-        public ProductAPIController(ApplicationDbContext context, IMemoryCache memoryCache)
+        public CategoryAPIController(ApplicationDbContext context)
         {
             _context = context;
-            _memoryCache = memoryCache;
         }
 
         [HttpGet]
@@ -30,54 +26,31 @@ namespace LacDau.Areas.Api
         public async Task<IActionResult> GetData()
         {
             JsonResultVM json = new JsonResultVM();
-            var rs = await _context.Product.Where(i => i.IsDeleted == false).OrderByDescending(i => i.Id).ToListAsync();
+            var rs = await _context.Category.Where(i => i.IsDeleted == false).OrderByDescending(i => i.Id).ToListAsync();
             json.Message = "Success";
             json.StatusCode = 200;
             json.Object = rs;
             return Ok(json);
         }
 
-        [HttpGet("id")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetDataById(int id)
-        {
-            JsonResultVM json = new JsonResultVM();
-            var rs = await _context.Product.FirstOrDefaultAsync(i=>i.Id == id);
-            if(ReferenceEquals(rs, null))
-            {
-                json.Message = "NotFoud";
-                json.StatusCode = 404;
-                json.Object = rs;
-                return Ok(json);
-            }
-            else
-            {
-                json.Message = "Success";
-                json.StatusCode = 200;
-                json.Object = rs;
-                return Ok(json);
-            }
-            
-        }
-
         [HttpPost]
-        public async Task<IActionResult> AddData([FromForm]ProductVM vm)
+        public async Task<IActionResult> AddData(CategoryVM vm)
         {
             JsonResultVM json = new JsonResultVM();
             try
             {
                 var user = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-                Product product = new Product();
+                Category Category = new Category();
                 if (ModelState.IsValid)
                 {
-                    product = vm;
-                    product.CreatedDate = DateTime.Now;
-                    _context.Add(product);
+                    Category = vm;
+                    Category.CreatedDate = DateTime.Now;
+                    _context.Add(Category);
                     await _context.SaveChangesAsync();
 
                     json.Message = user;
                     json.StatusCode = 200;
-                    json.Object = product;
+                    json.Object = Category;
                     return Ok(json);
                 }
                 else
@@ -99,29 +72,29 @@ namespace LacDau.Areas.Api
         }
 
         [HttpPut]
-        public async Task<IActionResult> EditData(ProductVM vm)
+        public async Task<IActionResult> EditData(CategoryVM vm)
         {
             JsonResultVM json = new JsonResultVM();
             try
             {
-                Product product = await _context.Product.FirstOrDefaultAsync(i=>i.Id == vm.Id);
+                Category Category = await _context.Category.FirstOrDefaultAsync(i=>i.Id == vm.Id);
                 
-                if(product == null)
+                if(Category == null)
                 {
                     json.Message = "Not found";
-                    json.StatusCode = 404;
+                    json.StatusCode = 400;
                     json.Object = null;
                     return Ok(json);
                 }
                 else
                 {
-                    vm.CreatedDate = product.CreatedDate;
-                    _context.Entry(product).CurrentValues.SetValues(vm);
+                    vm.CreatedDate = Category.CreatedDate;
+                    _context.Entry(Category).CurrentValues.SetValues(vm);
                     await _context.SaveChangesAsync();
 
                     json.Message = "Not found";
-                    json.StatusCode = 200;
-                    json.Object = product;
+                    json.StatusCode = 400;
+                    json.Object = Category;
                     return Ok(json);
                 }
 
@@ -139,8 +112,8 @@ namespace LacDau.Areas.Api
         public async Task<IActionResult> DeleteCategory(int id)
         {
             JsonResultVM json = new JsonResultVM();
-            Product Product = await _context.Product.FirstOrDefaultAsync(i => i.Id == id);
-            if (Product == null)
+            Category Category = await _context.Category.FirstOrDefaultAsync(i => i.Id == id);
+            if (Category == null)
             {
                 json.StatusCode = 404;
                 json.Message = "Not Found";
@@ -149,7 +122,7 @@ namespace LacDau.Areas.Api
             }
             else
             {
-                _context.Product.Remove(Product);
+                _context.Category.Remove(Category);
                 await _context.SaveChangesAsync();
                 json.StatusCode = 202;
                 json.Message = "Success";
