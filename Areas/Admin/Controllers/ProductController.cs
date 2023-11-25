@@ -1,4 +1,4 @@
-﻿using LacDau.Data;
+﻿    using LacDau.Data;
 using LacDau.Models;
 using LacDau.Models.ProductVM;
 using LacDau.Services;
@@ -18,11 +18,13 @@ namespace LacDau.Areas.Admin.Controllers
         private readonly ApplicationDbContext _context;
         private readonly ICommon _icommon;
         private readonly IMemoryCache _memoryCache;
-        public ProductController(ApplicationDbContext context, ICommon common, IMemoryCache memoryCache)
+        private readonly IConfiguration _configuration;
+        public ProductController(ApplicationDbContext context, ICommon common, IMemoryCache memoryCache, IConfiguration configuration)
         {
             _context = context;
             _memoryCache = memoryCache;
             _icommon = common;
+            _configuration = configuration;
         }
 
         public IActionResult Index()
@@ -32,35 +34,31 @@ namespace LacDau.Areas.Admin.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             ProductVM vm = await _context.Product.FirstOrDefaultAsync(x => x.Id == id);
-            vm.TrademarkName = _context.Trademark.FirstOrDefault(i=>i.Id == vm.TrademarkId).Name;
-            vm.CategoryName = _context.Category.FirstOrDefault(i=>i.Id == vm.CategoryId).Name;
+            vm.TrademarkName = _context.Trademark.FirstOrDefault(i=>i.Id == vm.TrademarkId)?.Name??"";
+            vm.CategoryName = _context.Category.FirstOrDefault(i=>i.Id == vm.CategoryId)?.Name??"";
+            vm.ProductImg = await _context.ProductImg.Where(i=>i.IsDelete == false && i.ProductId == id).ToListAsync();
             return PartialView("Detail", vm);
         }
         public async Task<IActionResult> GetData()
         {
             JsonResultVM json = new JsonResultVM();
-            //var rs = _memoryCache.Get("all_product");
-            //if (rs != null)
-            //{
-            //    json.Message = string.Empty;
-            //    json.StatusCode = 200;
-            //    json.Object = rs;
-            //    return Ok(json);
-            //}
-            //else
-            //{
-            //    List<Product> products = await _context.Product.Where(i => i.IsDeleted == false).ToListAsync();
-            //    json.Message = string.Empty;
-            //    json.StatusCode = 200;
-            //    json.Object = products;
-            //    _memoryCache.Set("all_product", products);
-            //    return Ok(json);
-            //}
-            List<Product> products = await _context.Product.Where(i => i.IsDeleted == false).ToListAsync();
-            json.Message = string.Empty;
-            json.StatusCode = 200;
-            json.Object = products;
-            return Ok(json);
+            var rs = _memoryCache.Get(_configuration["MemoriesCache:Product"]);
+            if (rs != null)
+            {
+                json.Message = string.Empty;
+                json.StatusCode = 200;
+                json.Object = rs;
+                return Ok(json);
+            }
+            else
+            {
+                List<Product> products = await _context.Product.Include(p=>p.ProductImg).Where(p=>p.IsDeleted == false && p.ProductImg.All(pi=>pi.IsDelete == false)).ToListAsync();
+                json.Message = string.Empty;
+                json.StatusCode = 200;
+                json.Object = products;
+                _memoryCache.Set(_configuration["MemoriesCache:Product"], products);
+                return Ok(json);
+            }
         }
         public IActionResult AddData()
         {
@@ -102,15 +100,7 @@ namespace LacDau.Areas.Admin.Controllers
             try
             {
                 Product product = new Product();
-
-                if (vm.Img1File != null)
-                {
-                    vm.Img1 = await _icommon.UploadFileImgProductAsync(vm.Img1File);
-                }
-                if (vm.Img2File != null)
-                {
-                    vm.Img2 = await _icommon.UploadFileImgProductAsync(vm.Img2File);
-                }
+                _memoryCache.Remove(_configuration["MemoriesCache:Product"]);
                 if (vm.VideoFile != null)
                 {
                     vm.Video = await _icommon.UploadFileVideoProductAsync(vm.VideoFile);
@@ -141,6 +131,8 @@ namespace LacDau.Areas.Admin.Controllers
                     return Ok(json);
                 }
 
+                
+
             }
             catch (Exception ex)
             {
@@ -150,6 +142,33 @@ namespace LacDau.Areas.Admin.Controllers
                 return Ok(json);
             }
         }
+        public IActionResult AddImg(int product_id)
+        {
+            UploadFileImgProduct up = new UploadFileImgProduct();
+            up.ProductId = product_id;
+            return PartialView("Add_Img", up);
+        }
+        public async Task<IActionResult> SaveImg(UploadFileImgProduct vm)
+        {
+            string ImgPath = await _icommon.UploadFileImgProductAsync(vm.FileName);
+            ProductImg img = new ProductImg();
+            img.ImgPath = ImgPath;
+            img.IsDelete = false;
+            img.ProductId = vm.ProductId;
+            _context.Add(img);
+            _context.SaveChanges();
+
+            return Ok(img);
+        }
+        public async Task<IActionResult> DeleteImgProduct(int id)
+        {
+            ProductImg img = await _context.ProductImg.FirstOrDefaultAsync(i=>i.Id == id);
+            img.IsDelete = true;
+            _context.Update(img);
+            _context.SaveChanges();
+            _memoryCache.Remove(_configuration["MemoriesCache:Product"]);
+            return Ok(img);
+        }
 
         public async Task<IActionResult> DeleteData(int id)
         {
@@ -157,6 +176,7 @@ namespace LacDau.Areas.Admin.Controllers
             pr.IsDeleted = true;
             _context.Update(pr);
             _context.SaveChanges();
+            _memoryCache.Remove(_configuration["MemoriesCache:Product"]);
             return Ok();
         }
 
@@ -166,6 +186,16 @@ namespace LacDau.Areas.Admin.Controllers
             pr.IsHome = !pr.IsHome;
             _context.Update(pr);
             _context.SaveChanges();
+            _memoryCache.Remove(_configuration["MemoriesCache:Product"]);   
+            return Ok();
+        }
+        public async Task<IActionResult> ChangeActive(int id)
+        {
+            Product pr = await _context.Product.FirstOrDefaultAsync(i => i.Id == id);
+            pr.IsActive = !pr.IsActive;
+            _context.Update(pr);
+            _context.SaveChanges();
+            _memoryCache.Remove(_configuration["MemoriesCache:Product"]);
             return Ok();
         }
     }

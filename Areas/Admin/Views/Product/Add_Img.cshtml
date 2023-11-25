@@ -1,0 +1,10 @@
+﻿@model LacDau.Models.UploadFileImgProduct;
+
+<form>
+    <input hidden asp-for="ProductId"/>
+    <div class="form-group">
+        <label asp-for="FileName" class="control-label"></label>
+        <input asp-for="FileName" class="form-control"/>
+        <span asp-validation-for="FileName" class="text-danger"></span>
+    </div>
+</form>

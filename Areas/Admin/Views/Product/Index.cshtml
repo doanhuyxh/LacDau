@@ -10,6 +10,8 @@
                     <th class="text-center">Tên sản phẩm</th>
                     <th class="text-center">Video</th>
                     <th class="text-center">Hiển thị trang home</th>
+                    <th class="text-center">Hoạt động</th>
+                    <th class="text-center">Thêm ảnh</th>
                     <th class="text-center"></th>
                 </tr>
             </thead>
@@ -23,8 +25,16 @@
                     </video>
                 </td>
                 <td class="text-center">
-                    <span v-if="item.isHome" class="btn btn-success">o</span>
-                    <span v-else class="btn btn-danger">o</span>
+                    <span v-if="item.isHome" v-on:click="ChangeHome(item.id)" class="btn btn-success">o</span>
+                    <span v-else class="btn btn-danger" v-on:click="ChangeHome(item.id)">o</span>
+                </td>
+                <td class="text-center">
+                    <span v-if="item.isActive" v-on:click="ChangeActive(item.id)" class="btn btn-success"><i class="fas fa-toggle-on" style="color: #0adb49;"></i></span>
+                    <span v-else class="btn btn-danger" v-on:click="ChangeActive(item.id)"><i class="fas fa-toggle-on" style="color: #3f1503;"></i></span>
+                </td>
+                
+                <td>
+                    <span class="btn btn-success" v-on:click="AddImg(item.id)"><i class="fas fa-plus" style="color: #064110;"></i></span>
                 </td>
                 <td class="text-center">
                     <span class="btn btn-warning" v-on:click="ViewProduct(item.id)"><i class="fas fa-eye" style="color: #51371f;"></i></span>
@@ -105,8 +115,26 @@
             ViewProduct(id) {
                 $("#BigModelContent").load(`/Admin/Product/GetById?id=${id}`, function () {
                     $("#staticBigModel").modal("show");
-                    $("#staticBigModellTitle").html("Sản phẩm")
+                    $("#staticBigModellTitle").html("Chi tiết")
                 })
+            },
+            AddImg(productId) {
+                $("#SmallModelContent").load(`/Admin/Product/AddImg?product_id=${productId}`, function () {
+                    $("#staticSmallModel").modal("show");
+                    $("#staticSmallModellTitle").html("Thêm ảnh")
+                })
+            },
+            ChangeActive(productid) {
+                fetch(`/Admin/Product/ChangeActive?id=${productid}`)
+                    .then(res => {
+                        this.initData();
+                    })
+            },
+            ChangeHome(productid) {
+                fetch(`/Admin/Product/ChangeHome?id=${productid}`)
+                    .then(res => {
+                        this.initData();
+                    })
             }
         }
     })
@@ -118,16 +146,13 @@
         _data.append("Id", $("#Id").val())
         _data.append("CreatedDate", $("#CreatedDate").val())
         _data.append("Name", $("#Name").val())
+        _data.append("Price", $("#Price").val())
         _data.append("Slug", $("#Slug").val())
         _data.append("Description", $("#Description").val())
         _data.append("TrademarkId", $("#TrademarkId").val())
         _data.append("CategoryId", $("#CategoryId").val())
         _data.append("CategoryId", $("#CategoryId").val())
-        _data.append("Img1", $("#Img1").val())
-        _data.append("Img2", $("#Img2").val())
         _data.append("Video", $("#Video").val())
-        _data.append("Img1File", document.getElementById("Img1File").files[0])
-        _data.append("Img2File", document.getElementById("Img2File").files[0])
         _data.append("VideoFile", document.getElementById("VideoFile").files[0])
 
         fetch("/Admin/Product/SaveData", {
@@ -163,4 +188,28 @@
 
         $("#Slug").val(slug)
     }
+
+    function SaveSmall(){
+        var _data = new FormData()
+        _data.append("ProductId", $("#ProductId").val())
+        _data.append("FileName", document.getElementById("FileName").files[0])
+
+        fetch("/Admin/Product/SaveImg", {
+            method: "POST",
+            headers: {
+                processData: false,
+                contentType: false,
+            },
+            body: _data
+        })
+            .then(res => res.json())
+            .then(res => {
+                $('#staticSmallModel').modal('hide');
+                Swal.fire({
+                    title: "Thành công",
+                    icon: 'info',
+                });
+            })
+    }
+
 </script>

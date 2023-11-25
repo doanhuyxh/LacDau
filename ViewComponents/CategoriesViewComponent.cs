@@ -1,6 +1,5 @@
 ﻿using LacDau.Data;
 using LacDau.Models.CategoryVM;
-using LacDau.Models.SubCategoryVM;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,13 +18,15 @@ namespace LacDau.ViewComponents
         {
             List<ListCategory> listcate = new List<ListCategory>();
             listcate = await (from cate in _context.Category
-                              where cate.IsDeleted == false
-                              select new ListCategory { 
+                              where cate.IsDeleted == false && cate.ParentId == 0
+                              select new ListCategory
+                              {
                                   Name = cate.Name,
                                   Slug = cate.Slug,
                                   Icon = cate.Icon,
-                                  ListSubCategory = _context.SubCategory.Where(sub=>sub.CategoryId == cate.Id && sub.IsDeleted == false).ToList(),
+                                  SubCategorie = _context.Category.Where(i=>i.ParentId == cate.Id).ToList(),
                               }).ToListAsync();
+                              
 
             return View(listcate);
         }

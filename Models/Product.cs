@@ -9,8 +9,6 @@ namespace LacDau.Models
         public string Name { get; set; }
         public string Slug { get; set; }
         public string Description { get; set; }
-        public string Img1 { get; set; } = string.Empty;
-        public string Img2 { get; set; } = string.Empty;
         public string Video { get; set; } = string.Empty;
         public int TrademarkId { get; set; }
         public int CategoryId { get; set; }
@@ -18,5 +16,7 @@ namespace LacDau.Models
         public bool IsHome { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
+        public string Price { get; set; }
+        public virtual ICollection<ProductImg> ProductImg { get; set; }
     }
 }

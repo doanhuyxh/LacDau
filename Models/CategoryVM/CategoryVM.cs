@@ -5,6 +5,7 @@ namespace LacDau.Models.CategoryVM
     public class CategoryVM
     {
         public int Id { get; set; }
+        public int ParentId { get; set; }
         [Display(Name = "Tên loại")]
         public string Name { get; set; }
         public string Slug { get; set; }
@@ -19,6 +20,7 @@ namespace LacDau.Models.CategoryVM
             return new CategoryVM
             {
                 Id = category.Id,
+                ParentId = category.ParentId,
                 Name = category.Name,
                 Icon = category.Icon,
                 CreatedDate = category.CreatedDate,
@@ -33,6 +35,7 @@ namespace LacDau.Models.CategoryVM
             {
                 Id = vm.Id,
                 Name = vm.Name,
+                ParentId = vm.ParentId,
                 Icon =vm.Icon??"",
                 Slug = vm.Slug,
                 CreatedDate = vm.CreatedDate,

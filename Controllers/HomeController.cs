@@ -1,7 +1,6 @@
 ﻿using LacDau.Data;
 using LacDau.Models;
 using LacDau.Models.CategoryVM;
-using LacDau.Models.SubCategoryVM;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -37,11 +36,7 @@ namespace LacDau.Controllers
             }
 
             Category cate = await _context.Category.FirstOrDefaultAsync(c => c.Slug == slug);
-            SubCategory subCate = await _context.SubCategory.FirstOrDefaultAsync(c => c.Slug == slug);
-
-            if(cate == null && subCate == null) {
-                return View("NotFound");
-            }
+            
 
             return View();
         }

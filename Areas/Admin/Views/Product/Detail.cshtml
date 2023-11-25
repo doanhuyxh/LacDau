@@ -22,9 +22,20 @@
             <th>Chi tiết</th>
             <td>@Model.Description</td>
         </tr>
+        @if (Model.ProductImg.Count > 0)
+        {
+            @foreach (var item in Model.ProductImg)
+            {
+                <tr>
+                    <th>Ảnh</th>
+                    <td><img src="@item.ImgPath" class="w-50" /></td>
+                </tr>
+            }
+        }
         <tr>
             <th>Ở trang chủ</th>
-            <td>@if (Model.IsHome)
+            <td>
+                @if (Model.IsHome)
                 {
                     <span>Có</span>
                 }
@@ -34,18 +45,11 @@
                 }
             </td>
         </tr>
-        <tr>
-            <th>Ảnh 1</th>
-            <td><img src="@Model.Img1" class="w-50"/></td>
-        </tr>
-        <tr>
-            <th>Ảnh 2</th>
-            <td><img src="@Model.Img2" class="w-50" /></td>
-        </tr>
+
         <tr>
             <th>Video</th>
             <td>
-                <video height="360" controls>
+                <video height="200" controls>
                     <source src="@Model.Video" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>

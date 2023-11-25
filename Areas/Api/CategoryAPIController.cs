@@ -61,7 +61,7 @@ namespace LacDau.Areas.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddData([FromForm]ProductVM vm)
+        public async Task<IActionResult> SaveData([FromForm]ProductVM vm)
         {
             JsonResultVM json = new JsonResultVM();
             try

@@ -83,7 +83,7 @@
                 console.log(this.cateId)
             },
             AddSUbCate() {
-                $("#ModalAddContent").load(`/Admin/Category/AddSUbCate`, function () {
+                $("#ModalAddContent").load(`/Admin/Category/SaveData`, function () {
                     $("#ModalAddEditSub").modal("show");
                     $("#ModalAddTitle").html("Thêm danh mục mới")
                 })
@@ -114,7 +114,7 @@
                 _data.append("Name", AppVueSubCategoryData.$data.nameSub)
                 _data.append("Slug", "dấd")
                 _data.append("CategoryId", this.cateId)
-                fetch("/Admin/Category/SaveSub", {
+                fetch("/Admin/Category/SaveData", {
                     method: "POST",
                     body: _data
                 })

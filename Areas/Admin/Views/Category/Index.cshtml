@@ -54,6 +54,10 @@
                         if (!this.mountDataTable) {
                             dataTableJS("tableCategory")
                             this.mountDataTable = true
+                        } else {
+                            let dataTable = $('#tableCategory').DataTable();
+                            dataTable.clear().draw();
+                            dataTable.rows.add(this.data).draw();
                         }
                     })
             },
@@ -61,6 +65,7 @@
                 $("#SmallModelContent").load(`/Admin/Category/AddData`, function () {
                     $("#staticSmallModel").modal("show");
                     $("#staticSmallModellTitle").html("Thêm danh mục mới")
+                    $("#ParentId").val(0)
                 })
             },
             EditCategory(id) {
@@ -115,12 +120,13 @@
 
         var _data = new FormData()
         _data.append("Id", $("#Id").val())
+        _data.append("ParentId", $("#ParentId").val())
         _data.append("CreatedDate", $("#CreatedDate").val())
         _data.append("Name", $("#Name").val())
         _data.append("Slug", $("#Slug").val())
         _data.append("IconFile", document.getElementById("IconFile").files[0])
 
-        fetch("/Admin/Category/AddData", {
+        fetch("/Admin/Category/SaveData", {
             method: "POST",
             headers: {
                 processData: false,
