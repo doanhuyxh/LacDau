@@ -1,0 +1,40 @@
+﻿@model LacDau.Models.BannerVM.BannerVM
+
+<form id="AddBanner">
+    <input hidden asp-for="Id" />
+    <input hidden asp-for="CreatedDate" />
+    <input hidden asp-for="IsActive" />
+    <input hidden asp-for="IsDelete" />
+
+    <div class="form-group">
+
+        <label class="control-label" asp-for="Type"></label>
+        <select class="form-control" asp-for="Type" v-model="type">
+            <option value="0" selected disabled>Choose...</option>
+            <option value="1">Banner ảnh chính</option>
+            <option value="2">Banner ảnh phải</option>
+            <option value="3">Banner ảnh dưới</option>
+            <option value="4">Banner chữ</option>
+        </select>
+    </div>
+    <div class="form-group" v-show="type == 4">
+        <label asp-for="Content" class="control-label"></label>
+        <input asp-for="Content" class="form-control" />
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+    <div class="form-group" v-show="type != 4">
+        <label asp-for="ContentFile" class="control-label"></label>
+        <input asp-for="ContentFile" class="form-control" />
+        <span asp-validation-for="ContentFile" class="text-danger"></span>
+    </div>
+
+</form>
+
+<script>
+    var AddBanner = new Vue({
+        el: "#AddBanner",
+        data: {
+            type: 1
+        },
+    })
+</script>

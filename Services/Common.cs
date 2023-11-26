@@ -113,6 +113,26 @@ namespace LacDau.Services
             }
             return $"/upload/productVideo/{path}";
         }
+        public async Task<string> UploadFileBannerAsync(IFormFile file)
+        {
+            string path = string.Empty;
+
+            if (file != null)
+            {
+                string uploadsFolder = Path.Combine(_iHostingEnvironment.ContentRootPath, "wwwroot/media/banner");
+
+                if (file.FileName == null)
+                    path = "icon.png";
+                else
+                    path = DateTime.Now.Ticks.ToString() + Path.GetExtension(file.FileName);
+                string filePath = Path.Combine(uploadsFolder, path);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+            }
+            return $"/media/banner/{path}";
+        }
 
     }
 

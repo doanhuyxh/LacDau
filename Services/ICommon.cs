@@ -7,5 +7,6 @@
         string RandomString (int length);
         Task<string> UploadFileImgProductAsync(IFormFile file);
         Task<string> UploadFileVideoProductAsync(IFormFile file);
+        Task<string> UploadFileBannerAsync(IFormFile file);
     }
 }

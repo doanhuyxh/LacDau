@@ -1,0 +1,155 @@
+﻿<div class="row" id="SystemConfig">
+
+    <div class="col">
+        <div class="btn-group float-right" role="group">
+            <button type="button" class="btn btn-success" v-on:click="AddMainBanner()"><span class="btn btn-success"><i class="fas fa-plus" style="color: #115f07;"></i></span></button>
+
+        </div>
+    </div>
+
+    <div class="col-12 mt-2">
+        <p class="h2 text-danger text-center">Banner chính</p>
+        <div class="row">
+            <div class="col text-center" v-for="item in bannrMainImg" :key="index">
+                <img :src="item.content" alt="ad" width="200" class="img-thumbnail"/>
+                <div class="btn-group float-end my-1" role="group">
+                    <button type="button" class="btn btn-danger" v-on:click="DeleteBanner(item.id)">Xóa</button>
+                    <button type="button" class="btn btn-success" v-if="item.isActive" v-on:click="ChangeActive(item.id)">Tắt</button>
+                    <button type="button" class="btn btn-danger" v-else v-on:click="ChangeActive(item.id)">Bật</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 mt-2">
+        <p class="h2 text-center">Banner dưới</p>
+        <div class="row">
+            <div class="col" v-for="item in bannrBottomImg" :key="index">
+                <img :src="item.content" alt="ad" width="200" class="img-thumbnail" />
+                <div class="btn-group float-end my-1" role="group">
+                    <button type="button" class="btn btn-danger" v-on:click="DeleteBanner(item.id)">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mt-2">
+        <p class="h2 text-center">Banner phải</p>
+        <div class="row">
+            <div class="col" v-for="item in bannrRightImg" :key="index">
+                <img :src="item.content" alt="ad" width="200" class="img-thumbnail" />
+                <div class="btn-group float-end my-1" role="group">
+                    <button type="button" class="btn btn-danger" v-on:click="DeleteBanner(item.id)">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mt-2">
+        <p class="h2 text-center">Banner chữ</p>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" v-for="item in bannrText" :key="index">{{item.content}} <span class="btn btn-danger" v-on:click="DeleteBanner(item.id)">Xóa</span> </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    var SystemConfigVue = new Vue({
+        el: "#SystemConfig",
+        data: {
+            bannrMainImg: [],
+            bannrRightImg: [],
+            bannrBottomImg: [],
+            bannrText: [],
+        },
+        computed: {
+
+        },
+        mounted() {
+            this.initData();
+        },
+        methods: {
+            initData() {
+                fetch("/Admin/SystemConfig/GetAllBanner")
+                    .then(res => res.json())
+                    .then(data => {
+                        this.bannrMainImg = data.object.filter(item => item.type === 1)
+                        this.bannrRightImg = data.object.filter(item => item.type === 2)
+                        this.bannrBottomImg = data.object.filter(item => item.type === 3)
+                        this.bannrText = data.object.filter(item => item.type === 4)
+                    })
+            },
+            AddMainBanner() {
+                $("#SmallModelContent").load(`/Admin/SystemConfig/AddBanner`, function () {
+                    $("#staticSmallModel").modal("show");
+                    $("#staticSmallModellTitle").html("Banner mới")
+                })
+            },
+            DeleteBanner(id) {
+                let custhis = this;
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn xóa ?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Xóa',
+                    showCancelButton: true,
+                    cancelButtonText: "Hủy",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/Admin/SystemConfig/DeleteBanner?id=${id}`, {
+                            method: "DELETE"
+                        })
+                            .then(data => {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: "Thành công",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then((res) => {
+                                    custhis.initData();
+                                });
+                            })
+                    }
+                })
+            },
+            ChangeActive(id) {
+                fetch("/Admin/SystemConfig/ChangeActiveBanner?id="+id)
+                    .then(res => {
+                        this.initData();
+                    })
+            }
+        }
+    })
+
+    function SaveSmall() {
+        var _data = new FormData()
+        _data.append("Id", $("#Id").val())
+        _data.append("CreatedDate", $("#CreatedDate").val())
+        _data.append("IsActive", $("#IsActive").val())
+        _data.append("IsDelete", $("#IsDelete").val())
+        _data.append("Type", $("#Type").val())
+        _data.append("Content", $("#Content").val())
+        _data.append("ContentFile", document.getElementById("ContentFile").files[0])
+
+        fetch("/Admin/SystemConfig/SavedBanner", {
+            method: "POST",
+            headers: {
+                processData: false,
+                contentType: false,
+            },
+            body: _data
+        })
+            .then(res => res.json())
+            .then(res => {
+                $('#staticSmallModel').modal('hide');
+                Swal.fire({
+                    title: "Thành công",
+                    icon: 'info',
+                }).then(r => {
+                    SystemConfigVue.initData();
+                });
+            })
+    }
+
+</script>
