@@ -19,21 +19,21 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
     <link rel="stylesheet" href="/static/assets/default/script/library.css">
-    
 
-    <link rel="stylesheet" href="/static/assets/default/script/pc_style65db.css?27.07.2022.61" >
+
+    <link rel="stylesheet" href="/static/assets/default/script/pc_style65db.css?27.07.2022.61">
     @* <link rel="stylesheet" href="/static/assets/default/script/pc_style65db.css?27.07.2022.61" > *@
 
     <script src="https://kit.fontawesome.com/3b023d18d9.js?_=1698261981210"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-    
+
 
 </head>
 <body>
 
     <div class="container">
         <div class="global-header-middle-group text-13 d-flex flex-wrap align-items-center">
-            <a href="index.html" class="header-left-group">
+            <a href="/" class="header-left-group">
                 <img src="/static/assets/default/images/logo.png" alt="Lắc đầu" width="1" height="1" class="d-block m-auto h-auto w-auto" />
             </a>
 
@@ -74,7 +74,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="global-header-block" style="display: none;"></div>
 
 
@@ -103,13 +103,7 @@
     </div>
 
     <div class="global-fixed-bottom-container">
-        <a href="https://www.instagram.com/lac.dau/" class="lazy" data-bg="url(/static/assets/default/images/instagram.png)" style="background-position: center;background-size: contain;background-repeat: no-repeat;" target="_blank"></a>
-        <a href="https://www.tiktok.com/lacdaushop?lang=vi-VN" class="lazy" data-bg="url(/static/assets/default/images/tik-tok.png)" style="background-position: center;background-size: contain;background-repeat: no-repeat;" target="_blank"></a>
-        <a href="https://www.youtube.com/channel/UC0kL-L4W-QBwgwqCv408J2A" class="icons icon-youtube" target="_blank" title="Youtube"></a>
-        <a href="https://www.facebook.com/lacdaustore" class="icons icon-facebook" target="_blank" title="Facebook"></a>
         <a href="javascript:void(0)" class="global-goTop" id="js-goTop" title="Lên đầu trang"></a>
-        <a href="https://m.me/lacdaustore" target="_blank" class="icon-mess" title="Chat với chúng tôi"></a>
-        <a href="https://zalo.me/0349296461" target="_blank" class="icon-mess" title="Chat với chúng tôi" style="background-image: url(static/assets/default/images/icon-zalo-2021.png);"></a>
     </div>
 
 
@@ -199,15 +193,12 @@
         function _headerLoadMap() {
             $('.global-header-top-group .item').hover(function () {
                 if ($('#js-load-map').hasClass('loaded') == false) {
-
-                    $('#js-load-map').html(`<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3724.4854518231614!2d105.8163974!3d21.0132533!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab7d33b90bd5%3A0x9d9d6f5da32dda1e!2zMTUgUC5Zw6puIEzDo25nLCBUcnVuZyBMaeG7h3QsIMSQ4buRbmcgxJBhLCBIw6AgTuG7mWk!5e0!3m2!1svi!2s!4v1678960947364!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`);
-
                     $('#js-load-map').addClass('loaded');
                 }
             });
         }
 
-        
+
 
         function addProductToCart(product_id, variant_id, redirect) {
             var product_prop = {
@@ -322,245 +313,241 @@
 
     <script>
         var article_top = `
-                                <div class="item">
-                                    <a href="{%= item.url %}" class="img"> <img src="{%= item.image.original %}" alt="{%= item.title %}"/></a>
-                                    <div class="item-text">
-                                        <span class="number">01</span>
+                                        <div class="item">
+                                            <a href="{%= item.url %}" class="img"> <img src="{%= item.image.original %}" alt="{%= item.title %}"/></a>
+                                            <div class="item-text">
+                                                <span class="number">01</span>
 
-                                        <div class="text">
-                                            <a href="{%= item.url %}" class="title">{%= item.title %}</a>
+                                                <div class="text">
+                                                    <a href="{%= item.url %}" class="title">{%= item.title %}</a>
 
-                                            <div class="share">
-                                                <span><i class="fa fa-share-alt"></i> Chia sẻ</span>
+                                                    <div class="share">
+                                                        <span><i class="fa fa-share-alt"></i> Chia sẻ</span>
 
-                                                <div class="btn-share">
-                                                    <div class="fb-share-button" data-href="{%= item.url %}" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&src=sdkpreparse" class="fb-xfbml-parse-ignore"><i class="fa fa-facebook" style="margin-right: 5px"></i> Chia sẻ</a></div>
+                                                        <div class="btn-share">
+                                                            <div class="fb-share-button" data-href="{%= item.url %}" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&src=sdkpreparse" class="fb-xfbml-parse-ignore"><i class="fa fa-facebook" style="margin-right: 5px"></i> Chia sẻ</a></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            `;
+                                    `;
 
         var article_item = `
-                                <div class="art-item">
-                                    <a href="{%= item.url %}" class="art-img"> <img src="{%= item.image.original %}" alt="{%= item.title %}"/></a>
+                                        <div class="art-item">
+                                            <a href="{%= item.url %}" class="art-img"> <img src="{%= item.image.original %}" alt="{%= item.title %}"/></a>
 
-                                    <div class="art-text">
-                                        <a href="{%= item.url %}" class="art-title"> {%= item.title %}</a>
-                                        <time>
-                                            <i class="fa fa-clock-o"></i>
-                                            {% if (item.article_time != "") { %}{%= item.article_time %}{% } else { %}{%= item.createDate %}{% } %}
-                                        </time>
-                                    </div>
+                                            <div class="art-text">
+                                                <a href="{%= item.url %}" class="art-title"> {%= item.title %}</a>
+                                                <time>
+                                                    <i class="fa fa-clock-o"></i>
+                                                    {% if (item.article_time != "") { %}{%= item.article_time %}{% } else { %}{%= item.createDate %}{% } %}
+                                                </time>
+                                            </div>
 
-                                    <div class="art-summary"> {%= item.summary %}</div>
-                                </div>
-                            `;
+                                            <div class="art-summary"> {%= item.summary %}</div>
+                                        </div>
+                                    `;
 
         var hom_article_big = `
-                                <div class="art-item">
-                                    <a href="{%= item.url %}" class="art-img"> <img src="{%= item.image.original %}" alt="{%= item.title %}" class="w-100"/></a>
+                                        <div class="art-item">
+                                            <a href="{%= item.url %}" class="art-img"> <img src="{%= item.image.original %}" alt="{%= item.title %}" class="w-100"/></a>
 
-                                    <div class="art-text">
-                                        <a href="{%= item.url %}" class="art-title"> {%= item.title %}</a>
-                                        <time>
-                                            <i class="fa fa-clock-o" style="margin-right: 10px"></i> {% if (item.article_time != "") { %}{%= item.article_time %}{% } else { %}{%= item.createDate %}{% } %}
-                                            <i class="fa fa-comment" style="margin-right: 10px"></i> {%= item.review_count %}
-                                            <i class="fa fa-eye"></i> {%= item.visit %}
-                                        </time>
+                                            <div class="art-text">
+                                                <a href="{%= item.url %}" class="art-title"> {%= item.title %}</a>
+                                                <time>
+                                                    <i class="fa fa-clock-o" style="margin-right: 10px"></i> {% if (item.article_time != "") { %}{%= item.article_time %}{% } else { %}{%= item.createDate %}{% } %}
+                                                    <i class="fa fa-comment" style="margin-right: 10px"></i> {%= item.review_count %}
+                                                    <i class="fa fa-eye"></i> {%= item.visit %}
+                                                </time>
 
-                                        <div class="art-summary"> {%= item.summary %}</div>
-                                    </div>
-                                </div>
-                            `;
+                                                <div class="art-summary"> {%= item.summary %}</div>
+                                            </div>
+                                        </div>
+                                    `;
 
         var videoTpl = `
-                                <a href="{%= item.external_url %}" data-fancybox="">
-                                    {% if (item.image.original != "") { %} <img src="{%= item.image.original %}">
-                                    {% } else { %} <img src="../img.youtube.com/vi/%7b%25%3d%20Hura.Youtube.getId(item.external_url)%20%25%7d/mqdefault.html">
-                                    {% } %}
-                                </a>
-                            `;
+                                        <a href="{%= item.external_url %}" data-fancybox="">
+                                            {% if (item.image.original != "") { %} <img src="{%= item.image.original %}">
+                                            {% } else { %} <img src="../img.youtube.com/vi/%7b%25%3d%20Hura.Youtube.getId(item.external_url)%20%25%7d/mqdefault.html">
+                                            {% } %}
+                                        </a>
+                                    `;
 
         var articleTpl = `
-                                <div class="art-item">
-                                    <a href="{%= item.url %}" class="art-img">
-                                        <img src="{%= item.image.original %}" alt="{%= item.title %}"/>
-                                    </a>
+                                        <div class="art-item">
+                                            <a href="{%= item.url %}" class="art-img">
+                                                <img src="{%= item.image.original %}" alt="{%= item.title %}"/>
+                                            </a>
 
-                                    <div class="art-text">
-                                        <p class="art-time js-art-time" data-time="{% if (item.article_time != "") { %}{%= item.article_time %}{% } else { %}{%= item.createDate %}{% } %}">
-                                            <span>17.06</span>
-                                            <b>2022</b>
-                                        </p>
+                                            <div class="art-text">
+                                                <p class="art-time js-art-time" data-time="{% if (item.article_time != "") { %}{%= item.article_time %}{% } else { %}{%= item.createDate %}{% } %}">
+                                                    <span>17.06</span>
+                                                    <b>2022</b>
+                                                </p>
 
-                                        <a href="{%= item.url %}" class="art-title">{%= item.title %}</a>
+                                                <a href="{%= item.url %}" class="art-title">{%= item.title %}</a>
 
-                                        <div class="art-summary">{%= item.summary %}</div>
-                                    </div>
-                                </div>
-                            `;
+                                                <div class="art-summary">{%= item.summary %}</div>
+                                            </div>
+                                        </div>
+                                    `;
 
 
         var productTpl = `
-                                <div class="p-item">
-                                    <a href="{%= item.productUrl %}" class="p-img">
-                                        <img src="{%= item.productImage.large %}" alt="{%= item.productName %}"/>
+                                        <div class="p-item">
+                                            <a href="{%= item.productUrl %}" class="p-img">
+                                                <img src="{%= item.productImage.large %}" alt="{%= item.productName %}"/>
 
-                                        {% if (item.price_off > 0) { %}
-                                        <span class="p-disoucnt">-{%= parseInt(item.price_off) %}%</span>
-                                        {% } %}
-                                    </a>
-
-                                    <div class="p-text">
-                                      <div class="d-flex align-item-center justify-content-between">
-                                        <p class="p-sku">Mã: {%= item.productSKU %}</p>
-                                        <p class="p-qty {% if (item.quantity > 0) { %}conhang{% } %}">{% if (item.quantity > 0) { %}Còn hàng {% } else { %} Hết hàng {% } %}</p>
-                                      </div>
-                                        <a href="{%= item.productUrl %}" class="p-name">{%= item.productName %}</a>
-
-                                        <div class="p-price-container">
-                                            {% if (item.price_off > 0) { %}
-                                            <del class="p-old-price">{%= formatCurrency(item.marketPrice) %}<u>đ</u></del>
-                                            {% } %}
-
-                                            <span class="p-price">
-                                                {% if (item.price > 0) { %} {%= formatCurrency(item.price) %}<u>đ</u>
-                                                {% } else { %} Liên hệ
+                                                {% if (item.price_off > 0) { %}
+                                                <span class="p-disoucnt">-{%= parseInt(item.price_off) %}%</span>
                                                 {% } %}
-                                            </span>
+                                            </a>
 
-                                            <a href="javascript:void(0)" class="p-btn-cart" onclick="addProductToCart({%= item.id %}, 0, '')"></a>
+                                            <div class="p-text">
+                                              <div class="d-flex align-item-center justify-content-between">
+                                                <p class="p-sku">Mã: {%= item.productSKU %}</p>
+                                                <p class="p-qty {% if (item.quantity > 0) { %}conhang{% } %}">{% if (item.quantity > 0) { %}Còn hàng {% } else { %} Hết hàng {% } %}</p>
+                                              </div>
+                                                <a href="{%= item.productUrl %}" class="p-name">{%= item.productName %}</a>
+
+                                                <div class="p-price-container">
+                                                    {% if (item.price_off > 0) { %}
+                                                    <del class="p-old-price">{%= formatCurrency(item.marketPrice) %}<u>đ</u></del>
+                                                    {% } %}
+
+                                                    <span class="p-price">
+                                                        {% if (item.price > 0) { %} {%= formatCurrency(item.price) %}<u>đ</u>
+                                                        {% } else { %} Liên hệ
+                                                        {% } %}
+                                                    </span>
+
+                                                    <a href="javascript:void(0)" class="p-btn-cart" onclick="addProductToCart({%= item.id %}, 0, '')"></a>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            `;
+                                    `;
 
         var commentTpl = `
-                                {% if (item.approved == 1) { %}
-                                <div class="item-comment" id="comment_{%= item.id %}">
-                                    <div class="comment-form-left">
-                                        {% if (item.is_user_admin == 1) { %}
-                                        <b class="avatar-user avatar-admin"><img src="/static/assets/default/images/favicon.png" alt="admin avatar" /></b>
-                                        {% } else { %}
-                                        <b class="avatar-user js-avatar-user">{%= item.user_name %}</b>
+                                        {% if (item.approved == 1) { %}
+                                        <div class="item-comment" id="comment_{%= item.id %}">
+                                            <div class="comment-form-left">
+                                                {% if (item.is_user_admin == 1) { %}
+                                                <b class="avatar-user avatar-admin"><img src="/static/assets/default/images/favicon.png" alt="admin avatar" /></b>
+                                                {% } else { %}
+                                                <b class="avatar-user js-avatar-user">{%= item.user_name %}</b>
+                                                {%} %}
+                                            </div>
+
+                                            <div class="comment-form-right">
+                                                <div class="comment-name">
+                                                    <b class="user-name"> {%= item.user_name %} </b>
+                                                    {% if (item.is_user_admin == 1) { %}<i class="note">Quản trị viên</i>
+                                                    {% } else { %} <i class="icon-star star-{%= item.rate %}"></i>
+                                                    {%} %}
+                                                </div>
+
+                                                <div class="comment-content">{%= item.content %}</div>
+
+                                                <div class="info_feeback">
+                                                    <span style="color:#787878;font-size: 12px;">({%= formatDate(item.post_time) %})</span>
+
+                                                    <a href='javascript:;' onclick="$('#reply_comment_{%= item.id %}').toggle()" class="write_reply btn-reply">Trả lời</a>
+                                                </div>
+
+                                                <div id='reply_comment_{%= item.id %}' class="reply-form-group" style="display:none; margin-top:15px;">
+                                                    <div class="comment-form reply-template">
+                                                        <form  action="/ajax/post_comment.php" method="post" enctype="multipart/form-data"  onsubmit="return check_field({%= item.id %})" class="form-reply{%= item.id %}">
+                                                            <input type="hidden" name='user_post[reply_to]' value='{%= item.id %}'/>
+
+                                                            <div class="relative">
+                                                                <textarea placeholder="Nội dung phản hồi" class="form-reply-2021 js-show-form-input"
+                                                                data-target="#comment-form-input-{%= item.id %}"
+                                                                id="content{%= item.id %}" onfocus="showFormReply('form-input{%= item.id %}')" ></textarea>
+
+                                                                <div class="form-input" id="form-input{%= item.id %}">
+                                                                    {%# checkReply(is_admin_login,customer_info, item.id) %}
+                                                                </div>
+                                                            </div><!--relative-->
+                                                        </form>
+                                                    </div>  <!-- comment-form -->
+                                                </div> <!-- reply-form -->
+
+                                                <!-- reply list -->
+                                                <div class="reply-list-container js-replyList-item" id="reply_list_{%= item.id %}" data-item-id="{%= item.id %}">
+                                                    {%# getReply(item.id) %}
+                                                </div>
+                                                <!-- end reply list-->
+                                            </div>
+                                        </div>
+
                                         {%} %}
-                                    </div>
-
-                                    <div class="comment-form-right">
-                                        <div class="comment-name">
-                                            <b class="user-name"> {%= item.user_name %} </b>
-                                            {% if (item.is_user_admin == 1) { %}<i class="note">Quản trị viên</i>
-                                            {% } else { %} <i class="icon-star star-{%= item.rate %}"></i>
-                                            {%} %}
-                                        </div>
-
-                                        <div class="comment-content">{%= item.content %}</div>
-
-                                        <div class="info_feeback">
-                                            <span style="color:#787878;font-size: 12px;">({%= formatDate(item.post_time) %})</span>
-
-                                            <a href='javascript:;' onclick="$('#reply_comment_{%= item.id %}').toggle()" class="write_reply btn-reply">Trả lời</a>
-                                        </div>
-
-                                        <div id='reply_comment_{%= item.id %}' class="reply-form-group" style="display:none; margin-top:15px;">
-                                            <div class="comment-form reply-template">
-                                                <form  action="/ajax/post_comment.php" method="post" enctype="multipart/form-data"  onsubmit="return check_field({%= item.id %})" class="form-reply{%= item.id %}">
-                                                    <input type="hidden" name='user_post[reply_to]' value='{%= item.id %}'/>
-
-                                                    <div class="relative">
-                                                        <textarea placeholder="Nội dung phản hồi" class="form-reply-2021 js-show-form-input"
-                                                        data-target="#comment-form-input-{%= item.id %}"
-                                                        id="content{%= item.id %}" onfocus="showFormReply('form-input{%= item.id %}')" ></textarea>
-
-                                                        <div class="form-input" id="form-input{%= item.id %}">
-                                                            {%# checkReply(is_admin_login,customer_info, item.id) %}
-                                                        </div>
-                                                    </div><!--relative-->
-                                                </form>
-                                            </div>  <!-- comment-form -->
-                                        </div> <!-- reply-form -->
-
-                                        <!-- reply list -->
-                                        <div class="reply-list-container js-replyList-item" id="reply_list_{%= item.id %}" data-item-id="{%= item.id %}">
-                                            {%# getReply(item.id) %}
-                                        </div>
-                                        <!-- end reply list-->
-                                    </div>
-                                </div>
-
-                                {%} %}
-                            `;
+                                    `;
 
         var replyTpl = `
-                                {% if (item.approved  == 1 || item.is_user_admin == 1 ) { %}
-                                <div class="item_reply">
-                                    <div class="comment-form-left">
-                                        {% if (item.is_user_admin == 1) { %}
-                                        <b class="avatar-user avatar-admin"><img src="/static/assets/default/images/favicon.png" alt="admin avatar" /></b>
-                                        {% } else { %}
-                                        <b class="avatar-user js-avatar-user">{%= item.user_name %}</b>
+                                        {% if (item.approved  == 1 || item.is_user_admin == 1 ) { %}
+                                        <div class="item_reply">
+                                            <div class="comment-form-left">
+                                                {% if (item.is_user_admin == 1) { %}
+                                                <b class="avatar-user avatar-admin"><img src="/static/assets/default/images/favicon.png" alt="admin avatar" /></b>
+                                                {% } else { %}
+                                                <b class="avatar-user js-avatar-user">{%= item.user_name %}</b>
+                                                {%} %}
+                                            </div>
+
+                                            <div class="comment-form-right">
+                                                <div class="comment-name">
+                                                    <b class="user-name"> {%= item.user_name %} </b>
+                                                    {% if (item.is_user_admin == 1) { %}<i class="note">Quản trị viên</i> {%} %}
+                                                </div>
+
+                                                <div class="comment-content">{%= item.content %}</div>
+
+                                                <div class="info_feeback">
+                                                    <span style="color:#787878;font-size: 12px;">({%= formatDate(item.post_time) %})</span>
+                                                </div>
+
+                                            </div><!--comment_right-->
+                                        </div><!--item-reply-->
                                         {%} %}
-                                    </div>
-
-                                    <div class="comment-form-right">
-                                        <div class="comment-name">
-                                            <b class="user-name"> {%= item.user_name %} </b>
-                                            {% if (item.is_user_admin == 1) { %}<i class="note">Quản trị viên</i> {%} %}
-                                        </div>
-
-                                        <div class="comment-content">{%= item.content %}</div>
-
-                                        <div class="info_feeback">
-                                            <span style="color:#787878;font-size: 12px;">({%= formatDate(item.post_time) %})</span>
-                                        </div>
-
-                                    </div><!--comment_right-->
-                                </div><!--item-reply-->
-                                {%} %}
-                            `;
+                                    `;
 
         var rating_tpl = `
-                                {% if (item.approved  == 1 || item.is_user_admin == 1 ) { %}
-                                <div class="item">
-                                    <div class="name-date">
-                                        <span> {%= item.user_name %} </span> | Ngày {%= formatDate(item.post_time) %}</div>
-                                    <div class="content">
-                                        <span class="star-rate-review icon-star star-{%= item.rate %}"></span>
-                                        <span class="txt">{%= item.content %}</span>
-                                    </div>
-                                </div>
-                                {%} %}
-                            `;
+                                        {% if (item.approved  == 1 || item.is_user_admin == 1 ) { %}
+                                        <div class="item">
+                                            <div class="name-date">
+                                                <span> {%= item.user_name %} </span> | Ngày {%= formatDate(item.post_time) %}</div>
+                                            <div class="content">
+                                                <span class="star-rate-review icon-star star-{%= item.rate %}"></span>
+                                                <span class="txt">{%= item.content %}</span>
+                                            </div>
+                                        </div>
+                                        {%} %}
+                                    `;
 
         var provinceTpl = `
-                                <option value="{%= item.id %}"  data-name="{%= item.name %}">{%= item.name %}</option>
-                            `;
+                                        <option value="{%= item.id %}"  data-name="{%= item.name %}">{%= item.name %}</option>
+                                    `;
 
         var instant_search_result_template = `
-                                <div class="list">
-                                    <a href="{%=item.url%}">
-                                        {% if (item.image != "") { %} <img src="{%= item.image %}" />
-                                        {% } else { %} <img src="static/assets/default/images/logo.png"/>
-                                        {% } %}
-                                        <span class="info">
-                                          <span class="name">{%=item.title%}</span>
-                                          <span class="price">{%= item.price > 0 ? formatCurrency(item.price) + 'đ' : 'Liên hệ' %}</span>
-                                        </span>
-                                    </a>
-                                </div>
-                            `;
+                                        <div class="list">
+                                            <a href="{%=item.url%}">
+                                                {% if (item.image != "") { %} <img src="{%= item.image %}" />
+                                                {% } else { %} <img src="static/assets/default/images/logo.png"/>
+                                                {% } %}
+                                                <span class="info">
+                                                  <span class="name">{%=item.title%}</span>
+                                                  <span class="price">{%= item.price > 0 ? formatCurrency(item.price) + 'đ' : 'Liên hệ' %}</span>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    `;
     </script>
 
 
     <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="../connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v13.0" nonce="VRX32SiA"></script>
+
 
 </body>
 
-<!-- Mirrored from lacdau.com/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 21 Oct 2023 07:09:34 GMT -->
 </html>
-
-<!-- Load time: 0.07853 seconds  / 6 mb-->
-<!-- Powered by Hura8 Cloud - 2.3, Released: 10-Aug-2021 / Website: www.hurasoft.vn -->

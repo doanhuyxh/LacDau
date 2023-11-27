@@ -261,3 +261,10 @@
 window.addEventListener('load', function () {
     console.log('Trang web đã tải xong.');
 });
+
+function HiddenSave() {
+    $("#btnSaveBigModel").css("display", "none")
+}
+function ShowSave() {
+    $("#btnSaveBigModel").css("display", "block")
+}

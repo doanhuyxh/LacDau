@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace LacDau.Areas.Api
 {
@@ -17,10 +18,15 @@ namespace LacDau.Areas.Api
     {
         private readonly ApplicationDbContext _context;
         private readonly ICommon _icommon;
-        public TrademarkAPIController(ApplicationDbContext context, ICommon common)
+        private readonly IConfiguration _configuration;
+        private readonly IMemoryCache _memoryCache;
+
+        public TrademarkAPIController(ApplicationDbContext context, ICommon common, IConfiguration configuration, IMemoryCache memoryCache)
         {
             _context = context;
             _icommon = common;
+            _configuration = configuration;
+            _memoryCache = memoryCache;
         }
 
         [HttpGet]
@@ -28,6 +34,7 @@ namespace LacDau.Areas.Api
         public async Task<IActionResult> GetData()
         {
             JsonResultVM json = new JsonResultVM();
+
             var rs = await _context.Trademark.Where(i => i.IsDeleted == false).ToListAsync();
             json.Message = "Success";
             json.StatusCode = 200;

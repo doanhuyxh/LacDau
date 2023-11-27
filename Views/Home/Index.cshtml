@@ -3,42 +3,35 @@
         <div class="home-slider-holder">
             <div class="owl-carousel owl-theme custom-dots" id="js-home-slider">
 
-                <a href="lot-chuot.html?id=1"><img src="/media/banner/04_Jul4b2820f0c4fe29e2d289589b90e47f4c.png" alt="banner" width="955" height="579" class="owl-lazy" /></a>
-
-                <a href="gaming-gear.html?id=9"><img src="/media/banner/09_Jul9860edbd0f637428e39fde95121313ed.png" alt="banner" width="1433" height="869" class="owl-lazy" /></a>
+                @foreach (var item in ViewBag.BannerMain)
+                {
+                    <a href="javascript:void(0)">
+                        <img src="@item.Content" alt="banner" width="1433" height="869" class="lazy" />
+                    </a>
+                }
 
             </div>
         </div>
 
         <div class="home-right-holder">
 
-            <a href="mo-hinh.html?id=2">
-                <img src="/media/banner/04_Jul58a3f59ace6732aceb452a6e387c0c20.png" alt="banner" width="310" height="185" class="lazy" />
-            </a>
-
-            <a href="ban-phim-gaming.html?id=3">
-                <img src="/media/banner/04_Jul7f64f21fb6ba6d30b7932b6ad017b870.png" alt="banner" width="310" height="185" class="lazy" />
-            </a>
-
-            <a href="ban-gaming.html?id=4">
-                <img src="/media/banner/04_Julbc98282e1bb9acf041f8c94b05ccdfcb.png" alt="banner" width="310" height="185" class="lazy" />
-            </a>
+            @foreach (var item in ViewBag.BannerRight)
+            {
+                <a href="javascript:void(0)">
+                    <img src="@item.Content" alt="banner" width="310" height="185" class="lazy" />
+                </a>
+            }
 
         </div>
 
         <div class="home-under-holder">
 
-            <a href="index.html?id=5">
-                <img src="/media/banner/04_Jula2b2fecb48c5967badfe4d137f8508ec.png" alt="banner" width="418" height="250" class="lazy" />
-            </a>
-
-            <a href="loa-micro-webcam.html?id=6">
-                <img src="/media/banner/04_Jul476c025120f6806e9d46a90f17cebbdf.png" alt="banner" width="418" height="250" class="lazy" />
-            </a>
-
-            <a href="tan-nhiet-cooling.html?id=7">
-                <img src="/media/banner/04_Jul6bacdcd6a63d8b6a4e46c8337fc12342.png" alt="banner" width="418" height="250" class="lazy" />
-            </a>
+            @foreach (var item in ViewBag.BannerBottom)
+            {
+                <a href="javascript:void(0)">
+                    <img src="@item.Content" alt="banner" alt="banner" width="418" height="250" class="lazy" />
+                </a>
+            }
 
         </div>
     </div>

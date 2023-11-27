@@ -28,7 +28,7 @@ namespace LacDau.Areas.Admin.Controllers
         public async Task<IActionResult> GetData()
         {
             JsonResultVM json = new JsonResultVM();
-            var rs = await _context.Category.Where(i => i.IsDeleted == false).OrderByDescending(i => i.Id).ToListAsync();
+            var rs = await _context.Category.Where(i => i.IsDeleted == false && i.ParentId == 0).OrderByDescending(i => i.Id).ToListAsync();
             json.Message = "Success";
             json.StatusCode = 200;
             json.Object = rs;
@@ -53,7 +53,7 @@ namespace LacDau.Areas.Admin.Controllers
                     Category Category = new Category();
                     if (vm.Id == 0)
                     {
-                        if(vm.IconFile != null)
+                        if (vm.IconFile != null)
                         {
                             vm.Icon = await _icommon.UploadIconCategoryAsync(vm.IconFile);
                         }
@@ -73,10 +73,11 @@ namespace LacDau.Areas.Admin.Controllers
                         Category = await _context.Category.FirstOrDefaultAsync(i => i.Id == vm.Id);
                         if (vm.IconFile != null)
                         {
-                            vm.Icon = await _icommon.UploadIconCategoryAsync(vm.IconFile);
+                            Category.Icon = await _icommon.UploadIconCategoryAsync(vm.IconFile);
                         }
-                        vm.CreatedDate = Category.CreatedDate;
-                        _context.Entry(Category).CurrentValues.SetValues(vm);
+                        Category.Slug = vm.Slug;
+                        Category.Name = vm.Name;
+                        _context.Update(Category);
                         await _context.SaveChangesAsync();
 
                         json.Message = "Success";
@@ -123,7 +124,8 @@ namespace LacDau.Areas.Admin.Controllers
             }
             else
             {
-                _context.Category.Remove(Category);
+                Category.IsDeleted = true;
+                _context.Update(Category);
                 await _context.SaveChangesAsync();
                 json.StatusCode = 202;
                 json.Message = "Success";
@@ -135,17 +137,28 @@ namespace LacDau.Areas.Admin.Controllers
         public async Task<IActionResult> SubCategory(int id)
         {
             List<CategoryVM> sub = await (from c in _context.Category
-                                       where c.ParentId == id && c.IsDeleted == false
-                                       select new CategoryVM
-                                       {
-                                           IsDeleted = c.IsDeleted,
-                                           Name = c.Name,
-                                           Id = c.Id,
-                                           Slug = c.Slug,
-                                       }).ToListAsync();
+                                          where c.ParentId == id && c.IsDeleted == false
+                                          select new CategoryVM
+                                          {
+                                              IsDeleted = c.IsDeleted,
+                                              Name = c.Name,
+                                              Id = c.Id,
+                                              Slug = c.Slug,
+                                              Icon = c.Icon,
+                                              CreatedDate = c.CreatedDate,
+                                          }).ToListAsync();
             return PartialView("_SubCategory", sub);
         }
 
-        
+        public IActionResult AddEditSubCate(int id = 0)
+        {
+            CategoryVM vm = new CategoryVM();
+            if (id != 0)
+            {
+                vm = _context.Category.FirstOrDefault(i => i.Id == id);
+            }
+
+            return PartialView("AddEditData", vm);
+        }
     }
 }

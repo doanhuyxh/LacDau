@@ -1,30 +1,36 @@
-﻿@{
+﻿@using LacDau.Models.CategoryVM;
+@{
     int i = 0;
 }
-<div class="container" id="AppVueSubCategory">
+@model List<CategoryVM>;
+<div class="container row" id="AppVueSubCategory">
     <div class="col-12">
-        <span class="btn btn-success float-right" v-on:click="AddSUbCate()"><i class="fa fa-plus-circle"></i></span>
+        <span class="btn btn-success float-right m-2" v-on:click="AddSUbCate()"><i class="fa fa-plus-circle"></i></span>
     </div>
     <div class="col-12">
-        @if (ViewBag.SubCategory != null && ViewBag.SubCategory.Count > 0)
+        @if (Model != null && Model.Count > 0)
         {
             <table class="table table-hover" id="tableTimeLine">
                 <thead>
                     <tr>
                         <th scope="col">STT</th>
-                        <th class="text-center" scope="col">Dang mục</th>
-                        <th class="text-center" scope="col">Slug</th>                        
+                        <th class="text-center" scope="col">Danh mục</th>
+                        <th class="text-center" scope="col">Slug</th>
+                        <th class="text-center" scope="col">Icon</th>
                         <th scope="text-nowrap"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in ViewBag.SubCategory)
+                    @foreach (var item in Model)
                     {
                         i++;
                         <tr>
                             <th scope="row">@i</th>
                             <td class="text-center">@item.Name</td>
                             <td class="text-center">@item.Slug</td>
+                            <td class="text-center">
+                                <img src="@item.Icon" width="50" />
+                            </td>
                             <td class="text-center text-nowrap">
                                 <span class="btn btn-warning" v-on:click="EditSubCategory(@item.Id)">Cập nhật</span>
                                 <span class="btn btn-danger" v-on:click="DeleteSubCategory(@item.Id)">Xóa</span>
@@ -83,7 +89,7 @@
                 console.log(this.cateId)
             },
             AddSUbCate() {
-                $("#ModalAddContent").load(`/Admin/Category/SaveData`, function () {
+                $("#ModalAddContent").load(`/Admin/Category/AddEditSubCate?id=0`, function () {
                     $("#ModalAddEditSub").modal("show");
                     $("#ModalAddTitle").html("Thêm danh mục mới")
                 })
@@ -111,26 +117,31 @@
             SaveSub() {
 
                 let _data = new FormData()
-                _data.append("Name", AppVueSubCategoryData.$data.nameSub)
-                _data.append("Slug", "dấd")
-                _data.append("CategoryId", this.cateId)
+                _data.append("Id", $("#Id").val())
+                _data.append("Name", $("#Name").val())
+                _data.append("Slug", $("#Slug").val())
+                _data.append("ParentId", this.cateId)
+                _data.append("Icon", $("#Icon").val())
+                _data.append("IconFile", document.getElementById("IconFile").files[0])
                 fetch("/Admin/Category/SaveData", {
                     method: "POST",
                     body: _data
                 })
                     .then(res => {
                         $('#ModalAddEditSub').modal('hide');
-                        console.log(res)
                         Swal.fire({
                             title: "Thành công",
                             icon: 'info',
                         }).then(r => {
-                            $("#staticBigModel").modal("hide");
+                            //$("#staticBigModel").modal("hide");
                         })
                     })
             },
             EditSubCategory(id) {
-
+                $("#ModalAddContent").load(`/Admin/Category/AddEditSubCate?id=${id}`, function () {
+                    $("#ModalAddEditSub").modal("show");
+                    $("#ModalAddTitle").html("Thêm danh mục mới")
+                })
             },
             DeleteSubCategory(id) {
                 let custhis = this;
@@ -145,7 +156,7 @@
                     cancelButtonText: "Hủy",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        fetch(`/Admin/Category/DeleteSubCate?id=${id}`, {
+                        fetch(`/Admin/Category/DeleteCategory?id=${id}`, {
                             method: "DELETE"
                         })
                             .then(res => res.json())

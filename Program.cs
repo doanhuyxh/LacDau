@@ -10,8 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Caching;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -88,6 +87,8 @@ builder.Services.AddMemoryCache(option =>
 {
     option.ExpirationScanFrequency = TimeSpan.FromSeconds(30);
 });
+
+builder.Services.AddResponseCaching();
 
 builder.Services.AddScoped<UserManager<ApplicationUser>>();
 
@@ -181,11 +182,19 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy( builder =>
     {
-        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-
+        builder.WithOrigins(configuration["AllowOrigin"]).AllowAnyMethod().AllowAnyHeader();
     });
 });
 
+builder.Services.Configure<KestrelServerOptions>(options =>
+{
+    options.Limits.MaxRequestBodySize = long.MaxValue;
+});
+builder.Services.Configure<IISServerOptions>(options =>
+{
+    options.MaxRequestBodySize = long.MaxValue;
+    options.MaxRequestBodyBufferSize = int.MaxValue;
+});
 
 //add service system
 builder.Services.AddScoped<ICommon, Common>();
@@ -211,7 +220,14 @@ app.UseCookiePolicy();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = context =>
+    {
+        context.Context.Response.Headers.Add("Cache-Control", "private, max-age=172800");
+    }
+});
 
 //Đặt cấu hình Swagger UI ngay từ root URL
 app.UseSwagger();

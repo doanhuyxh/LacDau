@@ -51,14 +51,7 @@
                     .then(res => res.json())
                     .then(data => {
                         this.data = data.object;
-                        if (!this.mountDataTable) {
-                            dataTableJS("tableCategory")
-                            this.mountDataTable = true
-                        } else {
-                            let dataTable = $('#tableCategory').DataTable();
-                            dataTable.clear().draw();
-                            dataTable.rows.add(this.data).draw();
-                        }
+                        dataTableJS("tableCategory")
                     })
             },
             AddCategory() {
@@ -108,15 +101,16 @@
             ViewSubCate(id) {
                 this.currentViewCate = id;
                 $("#BigModelContent").load(`/Admin/Category/SubCategory?id=${id}`, function () {
-                    $("#staticBigModel").modal("show");
                     $("#staticBigModellTitle").html("Danh mục phụ")
+                    HiddenSave()
+                    $("#staticBigModel").modal("show");
                 })
             }
         }
     })
 
 
-    function Save() {
+    function SaveSmall() {
 
         var _data = new FormData()
         _data.append("Id", $("#Id").val())
@@ -135,14 +129,14 @@
             body: _data
         })
             .then(res => res.json())
-            .then(res => {
+            .then(data => {
                 $('#staticSmallModel').modal('hide');
-                console.log(res)
                 Swal.fire({
                     title: "Thành công",
                     icon: 'info',
                 }).then(res => {
-                    AppVueCategory.initData();
+                    let dataTable = $('#tableCategory').DataTable();
+                    dataTable.rows.add(data.object).draw();
                 });
             })
     }
