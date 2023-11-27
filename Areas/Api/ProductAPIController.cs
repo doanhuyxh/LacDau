@@ -19,10 +19,12 @@ namespace LacDau.Areas.Api
     {
         private readonly ApplicationDbContext _context;
         private readonly IMemoryCache _memoryCache;
-        public ProductAPIController(ApplicationDbContext context, IMemoryCache memoryCache)
+        private readonly IConfiguration _configuration;
+        public ProductAPIController(ApplicationDbContext context, IMemoryCache memoryCache, IConfiguration configuration)
         {
             _context = context;
             _memoryCache = memoryCache;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -30,11 +32,21 @@ namespace LacDau.Areas.Api
         public async Task<IActionResult> GetData()
         {
             JsonResultVM json = new JsonResultVM();
-            var rs = await _context.Product.Where(i => i.IsDeleted == false).OrderByDescending(i => i.Id).ToListAsync();
+            var rs = _memoryCache.Get(_configuration["MemoriesCache:Categories"]);
+            if (rs != null)
+            {
+                json.Object = (List<Product>)rs;
+            }
+            else
+            {
+                List<Product> categories = await _context.Product.Where(i => i.IsDeleted == false).OrderByDescending(i => i.Id).ToListAsync();
+                json.Object = categories;
+                _memoryCache.Set(_configuration["MemoriesCache:Categories"], categories);
+            }
             json.Message = "Success";
             json.StatusCode = 200;
-            json.Object = rs;
             return Ok(json);
+
         }
 
         [HttpGet("id")]
@@ -43,6 +55,28 @@ namespace LacDau.Areas.Api
         {
             JsonResultVM json = new JsonResultVM();
             var rs = await _context.Product.FirstOrDefaultAsync(i=>i.Id == id);
+            if(ReferenceEquals(rs, null))
+            {
+                json.Message = "NotFoud";
+                json.StatusCode = 404;
+                json.Object = rs;
+                return Ok(json);
+            }
+            else
+            {
+                json.Message = "Success";
+                json.StatusCode = 200;
+                json.Object = rs;
+                return Ok(json);
+            }
+            
+        }
+        [HttpGet("slug")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetDataBySlug(string slug)
+        {
+            JsonResultVM json = new JsonResultVM();
+            List<Product> rs = await _context.Product.Where(i=>i.Slug.Contains(slug)).ToListAsync();
             if(ReferenceEquals(rs, null))
             {
                 json.Message = "NotFoud";
@@ -149,9 +183,10 @@ namespace LacDau.Areas.Api
             }
             else
             {
-                _context.Product.Remove(Product);
+                Product.IsDeleted = true;
+                _context.Update(Product);
                 await _context.SaveChangesAsync();
-                json.StatusCode = 202;
+                json.StatusCode = 200;
                 json.Message = "Success";
                 json.Object = null;
                 return Ok(json);

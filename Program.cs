@@ -77,7 +77,7 @@ builder.Services.AddMvc();
 
 //Add connetdatabase
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(configuration.GetConnectionString("MSSQL")?? "Data Source=127.0.0.1;Initial Catalog=WebAppLacDau;Persist Security Info=True;TrustServerCertificate=True; User ID=sa;Password=Admin123@"));
+        options.UseSqlServer(configuration.GetConnectionString("MSSQL") ?? "Data Source=127.0.0.1;Initial Catalog=WebAppLacDau;Persist Security Info=True;TrustServerCertificate=True; User ID=sa;Password=Admin123@"));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
            .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -180,7 +180,7 @@ builder.Services.AddSingleton(tokenValidata);
 // add cors
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy( builder =>
+    options.AddDefaultPolicy(builder =>
     {
         builder.WithOrigins(configuration["AllowOrigin"]).AllowAnyMethod().AllowAnyHeader();
     });
@@ -250,12 +250,6 @@ app.UseSwaggerUI(c =>
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllerRoute(
-        name: "category",
-        pattern: "{slug}",
-        defaults: new { controller = "Home", action = "CategoryProduct" }
-    );
-
     endpoints.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");

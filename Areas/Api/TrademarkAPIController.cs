@@ -34,18 +34,27 @@ namespace LacDau.Areas.Api
         public async Task<IActionResult> GetData()
         {
             JsonResultVM json = new JsonResultVM();
-
-            var rs = await _context.Trademark.Where(i => i.IsDeleted == false).ToListAsync();
+            var rs = _memoryCache.Get(_configuration["MemoriesCache:Trademark"]);
+            if (rs != null)
+            {
+                json.Object = (List<Trademark>)rs;
+            }
+            else
+            {
+                List<Trademark> categories = await _context.Trademark.Where(i => i.IsDeleted == false).ToListAsync();
+                json.Object = categories;
+                _memoryCache.Set(_configuration["MemoriesCache:Trademark"], categories);
+            }
             json.Message = "Success";
             json.StatusCode = 200;
-            json.Object = rs;
             return Ok(json);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddData([FromForm] TrademarkVM vm)
+        public async Task<IActionResult> SaveData([FromForm] TrademarkVM vm)
         {
             JsonResultVM json = new JsonResultVM();
+            _memoryCache.Remove(_configuration["MemoriesCache:Trademark"]);
             try
             {
                 Trademark trademark = new Trademark();
@@ -74,9 +83,10 @@ namespace LacDau.Areas.Api
         }
 
         [HttpPut]
-        public async Task<IActionResult> EditData([FromForm] TrademarkVM vm)
+        public async Task<IActionResult> UpdateData([FromForm] TrademarkVM vm)
         {
             JsonResultVM json = new JsonResultVM();
+            _memoryCache.Remove(_configuration["MemoriesCache:Trademark"]);
             try
             {
                 if (ModelState.IsValid)
@@ -117,6 +127,7 @@ namespace LacDau.Areas.Api
         public async Task<IActionResult> DeleteTrademark(int id)
         {
             JsonResultVM json = new JsonResultVM();
+            _memoryCache.Remove(_configuration["MemoriesCache:Trademark"]);
             Trademark trademark = await _context.Trademark.FirstOrDefaultAsync(i => i.Id == id);
             if (trademark == null)
             {

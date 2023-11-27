@@ -26,40 +26,40 @@ namespace LacDau.Controllers
         public IActionResult Index()
         {
 
-            var cacheData = _cache.Get(_configuration["MemoriesCache:Banner"]);
-            if (cacheData == null)
+            var cacheKey = _configuration["MemoriesCache:Banner"];
+            if (!_cache.TryGetValue(cacheKey, out List<Banner> bannerList))
             {
-                List<Banner> bannerList = _context.Banner.Where(i => i.IsDelete == false && i.IsActive == true).ToList();
-                ViewBag.BannerMain = bannerList.Where(i => i.Type == 1).ToList();
-                ViewBag.BannerRight = bannerList.Where(i => i.Type == 2).ToList();
-                ViewBag.BannerBottom = bannerList.Where(i => i.Type == 3).ToList();
-                _cache.Set(_configuration["MemoriesCache:Banner"], bannerList);
+                bannerList = _context.Banner
+                    .Where(i => !i.IsDelete && i.IsActive)
+                    .ToList();
+
+                _cache.Set(cacheKey, bannerList);
             }
-            else
-            {
-                List<Banner> bannerList = (List<Banner>)cacheData;
-                ViewBag.BannerMain = bannerList.Where(i => i.Type == 1).ToList();
-                ViewBag.BannerRight = bannerList.Where(i => i.Type == 2).ToList();
-                ViewBag.BannerBottom = bannerList.Where(i => i.Type == 3).ToList();
-            }
+
+            ViewBag.BannerMain = bannerList?.Where(i => i.Type == 1).ToList() ?? new List<Banner>();
+            ViewBag.BannerRight = bannerList?.Where(i => i.Type == 2).ToList() ?? new List<Banner>();
+            ViewBag.BannerBottom = bannerList?.Where(i => i.Type == 3).ToList() ?? new List<Banner>();
+
+
             return View();
 
         }
-        public async Task<IActionResult> CategoryProduct(string slug)
-        {
-            slug = slug.ToLower();
 
-            if (slug == "admin")
+        [HttpGet("tim/{q}")]
+        public async Task<IActionResult> CategoryProduct(string q)
+        {
+            q = q.ToLower();
+
+            if (q == "admin")
             {
                 return Redirect("Admin/Dashboard/Index");
             }
-            if (slug == "api")
+            if (q == "api")
             {
                 return Redirect("/api/index.html");
             }
 
-            Category cate = await _context.Category.FirstOrDefaultAsync(c => c.Slug == slug);
-
+            Category cate = await _context.Category.FirstOrDefaultAsync(c => c.Slug == q);
 
             return View();
         }
