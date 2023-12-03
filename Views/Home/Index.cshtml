@@ -56,7 +56,64 @@
 
         </div>
 
-        <div class="p-container position-relative" id="js-collection-holder"><!-- // ajax Get collection --></div>
+        <div class="p-container position-relative" id="js-collection-holder">
+            <div class="owl-carousel owl-theme custom-nav owl-loaded owl-drag">
+                <div class="owl-stage-outer">
+                    <div class="owl-stage" style="transform: translate3d(-1058px, 0px, 0px); transition: all 1.5s ease 0s; width: 2647px;">
+
+                        @foreach (var item in ViewBag.TopSale)
+                        {
+                            <div class="owl-item" style="width: 252.667px; margin-right: 12px;">
+                                <div class="p-item">
+                                    <a href="/@item.Slug" class="p-img">
+                                        <img src="@item.ProductImg[0].ImgPath" alt="BỘ KEYCAP AKKO 9009 PBT SUBLIMATION">
+
+
+                                        <span class="p-disoucnt">-51%</span>
+
+                                    </a>
+
+                                    <div class="p-text">
+                                        <div class="d-flex align-item-center justify-content-between">
+                                            <p class="p-sku">Mã: KCB0061</p>
+                                            <p class="p-qty conhang">Còn hàng </p>
+                                        </div>
+                                        <a href="/@item.Slug" class="p-name">@item.Name</a>
+
+                                        <div class="p-price-container">
+
+                                            <del class="p-old-price">790.000<u>đ</u></del>
+
+
+                                            <span class="p-price">
+                                                390.000<u>đ</u>
+
+                                            </span>
+
+                                            <a href="javascript:void(0)" class="p-btn-cart" onclick="addProductToCart(1389, 0, '')"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <div class="owl-nav">
+                    <button type="button" role="presentation" class="owl-prev">
+                        <i class="arrow arrow-left"></i>
+                    </button>
+                    <button type="button" role="presentation" class="owl-next disabled">
+                        <i class="arrow"></i>
+                    </button>
+                </div>
+
+                <div class="owl-dots disabled">
+                </div>
+                <div class="owl-thumbs"></div>
+            </div>
+
+        </div>
 
         <a href="#" class="btn-collection" id="js-collection-link" title="">XEM THÊM <i class="fa fa-long-arrow-alt-right"></i></a>
     </div>

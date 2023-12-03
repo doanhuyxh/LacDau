@@ -8,7 +8,6 @@
                 <tr>
                     <th class="text-center">STT</th>
                     <th class="text-center">Tên sản phẩm</th>
-                    <th class="text-center">Video</th>
                     <th class="text-center">Hiển thị trang home</th>
                     <th class="text-center">Hoạt động</th>
                     <th class="text-center">Thêm ảnh</th>
@@ -18,12 +17,6 @@
             <tr v-for="(item, index) in data">
                 <td class="text-center">{{index+1}}</td>
                 <td class="text-center">{{item.name}}</td>
-                <td class="text-center">
-                    <video height="150" controls>
-                        <source :src="item.video" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </td>
                 <td class="text-center">
                     <span v-if="item.isHome" v-on:click="ChangeHome(item.id)" class="btn btn-success">o</span>
                     <span v-else class="btn btn-danger" v-on:click="ChangeHome(item.id)">o</span>
@@ -67,6 +60,7 @@
                     .then(data => {
                         console.log(data.object)
                         this.data = data.object;
+                        dataTableJS("tableProduct")
                     })
             },
             AddProduct() {

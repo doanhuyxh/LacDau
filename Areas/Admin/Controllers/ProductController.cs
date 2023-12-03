@@ -1,4 +1,5 @@
-﻿using LacDau.Data;
+﻿using Bogus;
+using LacDau.Data;
 using LacDau.Models;
 using LacDau.Models.ProductVM;
 using LacDau.Services;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using System.Collections.Generic;
 
 namespace LacDau.Areas.Admin.Controllers
 {
@@ -42,23 +44,47 @@ namespace LacDau.Areas.Admin.Controllers
         public async Task<IActionResult> GetData()
         {
             JsonResultVM json = new JsonResultVM();
-            var rs = _memoryCache.Get(_configuration["MemoriesCache:Product"]);
-            if (rs != null)
-            {
-                json.Message = string.Empty;
-                json.StatusCode = 200;
-                json.Object = rs;
-                return Ok(json);
-            }
-            else
-            {
-                List<Product> products = await _context.Product.Include(p => p.ProductImg).Where(p => p.IsDeleted == false && p.ProductImg.All(pi => pi.IsDelete == false)).ToListAsync();
-                json.Message = string.Empty;
-                json.StatusCode = 200;
-                json.Object = products;
-                _memoryCache.Set(_configuration["MemoriesCache:Product"], products);
-                return Ok(json);
-            }
+
+            //List<Product> products = await _context.Product.Include(p => p.ProductImg).Where(p => p.IsDeleted == false && p.ProductImg.All(pi => pi.IsDelete == false)).ToListAsync();
+            List<ProductVM> products = (from p in _context.Product
+                                       where p.IsDeleted == false
+                                       select new ProductVM
+                                       {
+                                           Id = p.Id,
+                                           Name = p.Name,
+                                           CategoryName = _context.Category.FirstOrDefault(i=>i.Id== p.CategoryId).Name ??"",
+                                           TrademarkName = _context.Trademark.FirstOrDefault(i=>i.Id==p.TrademarkId).Name ??"",
+                                           CreatedDate = p.CreatedDate,
+                                           Description = p.Description,
+                                           IsActive = p.IsActive,
+                                           IsHome = p.IsHome,
+                                           Price = p.Price,
+                                           Slug = p.Slug,
+                                           Video = p.Video,
+                                           ProductImg = _context.ProductImg.Where(i=>i.IsDelete==false && i.ProductId == p.Id).ToList()
+                                       }).ToList();
+            json.Message = string.Empty;
+            json.StatusCode = 200;
+            json.Object = products;
+            return Ok(json);
+
+            //var rs = _memoryCache.Get(_configuration["MemoriesCache:Product"]);
+            //if (rs != null)
+            //{
+            //    json.Message = string.Empty;
+            //    json.StatusCode = 200;
+            //    json.Object = (List<Product>)rs;
+            //    return Ok(json);
+            //}
+            //else
+            //{
+            //    List<Product> products = await _context.Product.Include(p => p.ProductImg).Where(p => p.IsDeleted == false && p.ProductImg.All(pi => pi.IsDelete == false)).ToListAsync();
+            //    json.Message = string.Empty;
+            //    json.StatusCode = 200;
+            //    json.Object = products;
+            //    _memoryCache.Set(_configuration["MemoriesCache:Product"], products);
+            //    return Ok(json);
+            //}
         }
         public IActionResult AddData()
         {
@@ -196,6 +222,70 @@ namespace LacDau.Areas.Admin.Controllers
             _context.Update(pr);
             _context.SaveChanges();
             _memoryCache.Remove(_configuration["MemoriesCache:Product"]);
+            return Ok();
+        }
+
+        public async Task<IActionResult> AddFakeProducts()
+        {
+            var cate = await _context.Category.Where(i => i.ParentId == 0 && i.IsDeleted == false).ToListAsync();
+
+            foreach (var c in cate)
+            {
+                var fakeProductGenerator = new Faker<Product>()
+                        .RuleFor(p => p.Name, f => f.Commerce.ProductName())
+                        .RuleFor(p => p.Description, f => f.Commerce.ProductDescription())
+                        .RuleFor(p => p.Slug, (f, p) => _icommon.GenerateSlug(f.Commerce.ProductName()))
+                        .RuleFor(p => p.TrademarkId, 1)
+                        .RuleFor(p => p.CreatedDate, f=>DateTime.Now)
+                        .RuleFor(p => p.Video, "/upload/productVideo/638372449822487778.mp4")
+                        .RuleFor(p => p.IsActive, true)
+                        .RuleFor(p => p.IsDeleted, false)
+                        .RuleFor(p => p.IsHome, true)
+                        .RuleFor(p => p.Price, f => f.Random.Decimal(10, 100).ToString())
+                        .RuleFor(p => p.CategoryId, f => c.Id);
+
+                List<Product> fakeProducts = fakeProductGenerator.Generate(10);
+
+                _context.Product.AddRange(fakeProducts);
+            }
+
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        public async Task<IActionResult> AddFakeProductsImg()
+        {
+            var pr = _context.Product.Where(i=>i.IsDeleted == false).ToList();
+
+            foreach (var item in pr)
+            {
+                var fackeImg = new Faker<ProductImg>()
+                    .RuleFor(i => i.ProductId, f => item.Id)
+                    .RuleFor(i => i.ImgPath, f => "https://lacdau.com/media/product/250-1675-z4258711824198_cbb201570adbb2f16190d016401f1162.jpg")
+                    .RuleFor(i => i.IsDelete, false);
+
+                List<ProductImg> list = fackeImg.Generate(5);
+                _context.ProductImg.AddRange(fackeImg);
+            }
+            _context.SaveChanges();
+
+            return Ok();
+        }
+
+        public IActionResult UpdateSlug()
+        {
+            var pr = _context.Product.ToList();
+
+            foreach (var item in pr)
+            {
+                //item.Slug = _icommon.GenerateSlug(item.Name);
+                item.IsHome = false;
+                _context.Update(item);
+            }
+
+            _context.SaveChanges();
+
+
             return Ok();
         }
     }

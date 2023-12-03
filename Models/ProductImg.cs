@@ -9,8 +9,8 @@ namespace LacDau.Models
         public int Id { get; set; }
         public string ImgPath { get; set; }
         public bool IsDelete { get; set; }
-        [ForeignKey("Product")]
         public int ProductId { get; set; }
+        [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
     }
 }

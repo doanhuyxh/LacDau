@@ -8,5 +8,7 @@
         Task<string> UploadFileImgProductAsync(IFormFile file);
         Task<string> UploadFileVideoProductAsync(IFormFile file);
         Task<string> UploadFileBannerAsync(IFormFile file);
+        public string GenerateSlug(string name);
+        public string RemoveAccents(string input);
     }
 }

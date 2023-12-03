@@ -1,6 +1,7 @@
 ﻿using LacDau.Data;
 using LacDau.Models;
 using LacDau.Models.CategoryVM;
+using LacDau.Models.ProductVM;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -40,28 +41,44 @@ namespace LacDau.Controllers
             ViewBag.BannerRight = bannerList?.Where(i => i.Type == 2).ToList() ?? new List<Banner>();
             ViewBag.BannerBottom = bannerList?.Where(i => i.Type == 3).ToList() ?? new List<Banner>();
 
+            ViewBag.TopSale = (from p in _context.Product
+                              where p.IsDeleted == false && p.IsHome
+                              select new ProductVM
+                              {
+                                  Id = p.Id,
+                                  Name = p.Name,
+                                  Price = p.Price,
+                                  ProductImg = _context.ProductImg.Where(i=>i.IsDelete == false && i.ProductId  == p.Id).ToList(),
+                                  Slug = p.Slug,
+                              }).ToList();
 
             return View();
 
         }
 
-        [HttpGet("tim/{q}")]
-        public async Task<IActionResult> CategoryProduct(string q)
+        [HttpGet("tim")]
+        public async Task<IActionResult> CategoryProduct()
         {
-            q = q.ToLower();
-
-            if (q == "admin")
+            string q = HttpContext.Request.Query["q"];
+            if(q== null|| q== "")
             {
-                return Redirect("Admin/Dashboard/Index");
+                return View();
             }
-            if (q == "api")
-            {
-                return Redirect("/api/index.html");
-            }
+            q = q.ToString().ToLower();
 
             Category cate = await _context.Category.FirstOrDefaultAsync(c => c.Slug == q);
 
             return View();
+        }
+
+        [HttpGet("{slug}")]
+        public async Task<IActionResult> Slug(string slug)
+        {
+            ProductVM product = await _context.Product.FirstOrDefaultAsync(i => i.Slug == slug);
+            product.ProductImg =  _context.ProductImg.Where(i=>i.ProductId == product.Id&& i.IsDelete == false).ToList();  
+            ViewBag.product = product;
+
+            return View("ProductDetail");
         }
 
         public IActionResult Card()

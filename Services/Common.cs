@@ -134,6 +134,18 @@ namespace LacDau.Services
             return $"/media/banner/{path}";
         }
 
+        public string GenerateSlug(string name)
+        {
+            string slug = RemoveAccents(name).Replace(" ", "-");
+            return slug;
+        }
+
+       
+        public string RemoveAccents(string input)
+        {
+            var bytes = Encoding.GetEncoding("Cyrillic").GetBytes(input);
+            return Encoding.ASCII.GetString(bytes);
+        }
     }
 
 }

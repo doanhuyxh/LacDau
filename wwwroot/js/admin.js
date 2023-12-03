@@ -5,7 +5,8 @@
             paging: true,
             select: true,
             autoFill: true,
-            pageLength:12,
+            pageLength: 10,
+            suppressWarnings: true,
             dom: 'Bfrtip',
             'columnDefs': [{
                 'targets': [-1],
