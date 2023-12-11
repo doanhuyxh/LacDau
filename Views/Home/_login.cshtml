@@ -1,0 +1,43 @@
+﻿<div class="bg-white p-3">
+    <div class="container">
+        <div class="row login-page">
+            <div class="col-6">
+                <p class="login_title"><b>Thông tin khách hàng đăng nhập hệ thống</b></p>
+
+
+
+                <input type="hidden" name="login" id="login" value="yes">
+                <input type="hidden" id="return_url" name="return_url" value="/taikhoan">
+                <table cellpadding="5" cellspacing="0" width="100%" shadow="" cor="">
+                    <tbody>
+                        <tr>
+                            <td>Email đăng nhập</td>
+                            <td><input type="text" size="25" name="email" id="email" class="form-control"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Mật khẩu</td>
+                            <td><input type="password" size="25" name="password" id="password" class="form-control"></td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td>
+                                <div style="position: relative;">
+                                    <input type="button" onclick="check_login()" value="Đăng nhập" class="btn btn-primary bg-green" style="color: #fff;border-color: transparent;">
+                                    <a href="/quen-mat-khau">Quên mật khẩu ?</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-6">
+                <p><b>Bạn chưa là thành viên ?</b></p>
+                <p>Đăng ký là thành viên để hưởng nhiều lợi ích và đặt mua hàng dễ dàng hơn.</p>
+                <p><a title="Click đăng ký tài khoản miễn phí" href="/dang-ky" class="bold"><b>Đăng ký tài khoản</b></a></p>
+            </div>
+        </div>
+    </div>
+</div>

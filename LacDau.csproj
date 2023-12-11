@@ -38,6 +38,8 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="wwwroot\lib\dataTable\" />
+	  <Folder Include="wwwroot\lib\fancybox_3_5_7\" />
+	  <Folder Include="wwwroot\lib\fontawesome\" />
 	  <Folder Include="wwwroot\lib\sweetalert2\" />
 	  <Folder Include="wwwroot\lib\vuejs\" />
 	  <Folder Include="wwwroot\upload\avatar\" />

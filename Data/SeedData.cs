@@ -54,26 +54,15 @@ namespace LacDau.Data
                 IsActive = true,
                 Avatar = "/upload/avatar/blank_avatar.png"
             };
-            var memberUser = new ApplicationUser
-            {
-                Email = "memberUser@gmail.com",
-                UserName = "memberUser",
-                FirstName = "Khách Hàng",
-                LastName = "1",
-                IsActive = true,
-                Avatar = "/upload/avatar/blank_avatar.png"
-            };
-
+            
             var result1 = await userManager.CreateAsync(superAdminUser, superAdminPassword);
             var result2 = await userManager.CreateAsync(adminUser, superAdminPassword);
-            var result3 = await userManager.CreateAsync(memberUser, superAdminPassword);
 
 
-            if (result1.Succeeded && result2.Succeeded && result3.Succeeded)
+            if (result1.Succeeded && result2.Succeeded)
             {
                 await userManager.AddToRoleAsync(superAdminUser, "SuperAdmin");
                 await userManager.AddToRoleAsync(adminUser, "Admin");
-                await userManager.AddToRoleAsync(memberUser, "Member");
             }
         }
     }

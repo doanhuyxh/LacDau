@@ -112,7 +112,6 @@ namespace LacDau.Controllers
                 }
                 else
                 {
-                    // Vai trò không được xác định hoặc không có chuyển hướng tương ứng
                     return Redirect("/Home/Index");
                 }
             }

@@ -74,6 +74,18 @@ namespace LacDau.Controllers
         [HttpGet("{slug}")]
         public async Task<IActionResult> Slug(string slug)
         {
+            switch (slug)
+            {
+                case "dang-nhap":
+                    return View("_login");
+                case "dang-ky":
+                    return View("_register");
+                case "quen-mat-khau":
+                    return View("_forgotPassword");
+                default:
+                    break;
+            }
+
             ProductVM product = await _context.Product.FirstOrDefaultAsync(i => i.Slug == slug);
             product.ProductImg =  _context.ProductImg.Where(i=>i.ProductId == product.Id&& i.IsDelete == false).ToList();  
             ViewBag.product = product;
@@ -81,10 +93,12 @@ namespace LacDau.Controllers
             return View("ProductDetail");
         }
 
+        
+        [Route("cart.html")]
         public IActionResult Card()
         {
             ViewBag.user = HttpContext.User.Identity.Name;
-            return PartialView("_card");
+            return View("_card");
         }
     }
 }

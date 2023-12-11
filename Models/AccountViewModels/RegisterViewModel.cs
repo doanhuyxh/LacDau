@@ -23,6 +23,7 @@ namespace LacDau.Models.AccountViewModels
             {
                 UserName = vm.UserName,
                 IsActive = true,
+                Email = vm.UserName,
             };
         }
     }
