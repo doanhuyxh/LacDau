@@ -12,11 +12,6 @@ using LacDau.Services;
 
 namespace LacDau.Controllers
 {
-    public static class CustomClaimTypes
-    {
-        public const string FullName = "FullName";
-    }
-
 
     [AllowAnonymous]
     public class AccountController : Controller
@@ -47,23 +42,24 @@ namespace LacDau.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return Ok(new JsonResultVM
+                {
+                    Message = "",
+                    StatusCode = 200,
+                    Object = model
+                });
             }
             var user = await _userManager.FindByNameAsync(model.UserName);
-            string fullname = "";
-            try
-            {
-                fullname += user.FirstName + " " + user.LastName;
-            }
-            catch (Exception ex)
-            {
-                fullname = user.Email;
-            }
 
             if (user != null && !user.IsActive)
             {
                 ModelState.AddModelError(string.Empty, "Tài khoản bị khoá");
-                return View(model);
+                return Ok(new JsonResultVM
+                {
+                    Message = "Tài khoản bị khoá",
+                    StatusCode = 500,
+                    Object = user
+                });
             }
 
             var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
@@ -101,8 +97,12 @@ namespace LacDau.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("err", ex.Message);
-                    return View(model);
+                    return Ok(new JsonResultVM
+                    {
+                        Message = ex.Message,
+                        StatusCode = 500,
+                        Object = user
+                    });
                 }
 
 
@@ -112,7 +112,13 @@ namespace LacDau.Controllers
                 }
                 else
                 {
-                    return Redirect("/Home/Index");
+                    return Ok(new JsonResultVM
+                    {
+                        Message = "",
+                        StatusCode = 200,
+                        Object = user
+                    });
+                    
                 }
             }
             else
@@ -134,17 +140,22 @@ namespace LacDau.Controllers
                 {
                     // Set role member
                     await _userManager.AddToRoleAsync(user, "Member");
+
                     // Automatically sign in the user
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    return RedirectToAction("Index", "Home");
+                    JsonResultVM json = new JsonResultVM();
+                    json.StatusCode = 200;
+                    json.Message = "OK";
+                    json.Object = model;
+                    return Ok(json);
                 }
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
             }
-            return View(model);
+            return BadRequest(model);
         }
 
         [HttpPost]

@@ -40,29 +40,22 @@ namespace LacDau.Data
             {
                 Email = superAdminEmail,
                 UserName = superAdminUserName,
-                FirstName = "Đoàn",
-                LastName = "Quang Huy",
+                FullName = "Đoàn Quang Huy",
                 IsActive = true,
-                Avatar = "/upload/avatar/blank_avatar.png"
+                Avatar = "/upload/avatar/blank_avatar.png",
+                DayDate = 18,
+                MonthDate = 02,
+                YearMonth = 2003,
+                Address = "adda",
+                Province = 28,
+                Sex = true,
             };
-            var adminUser = new ApplicationUser
-            {
-                Email = "adminUser@gmail.com",
-                UserName = "adminUser",
-                FirstName = "Người Dùng",
-                LastName = "1",
-                IsActive = true,
-                Avatar = "/upload/avatar/blank_avatar.png"
-            };
-            
             var result1 = await userManager.CreateAsync(superAdminUser, superAdminPassword);
-            var result2 = await userManager.CreateAsync(adminUser, superAdminPassword);
 
 
-            if (result1.Succeeded && result2.Succeeded)
+            if (result1.Succeeded)
             {
                 await userManager.AddToRoleAsync(superAdminUser, "SuperAdmin");
-                await userManager.AddToRoleAsync(adminUser, "Admin");
             }
         }
     }

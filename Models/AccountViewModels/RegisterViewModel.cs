@@ -16,6 +16,14 @@ namespace LacDau.Models.AccountViewModels
         [Display(Name = "Xác nhận mật khẩu")]
         [Compare("PasswordHash", ErrorMessage = "Mật khẩu không khớp")]
         public string? ConfirmPassword { get; set; }
+        public int Province { get; set; }
+        public bool Sex { get; set; }
+        public int DayDate { get; set; }
+        public int MonthDate { get; set; }
+        public int YearMonth { get; set; }
+        public string FullName { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
 
         public static implicit operator ApplicationUser(RegisterViewModel vm)
         {
@@ -24,6 +32,14 @@ namespace LacDau.Models.AccountViewModels
                 UserName = vm.UserName,
                 IsActive = true,
                 Email = vm.UserName,
+                Province = vm.Province,
+                Sex = vm.Sex,
+                DayDate = vm.DayDate,
+                MonthDate = vm.MonthDate,
+                YearMonth = vm.YearMonth,
+                FullName = vm.FullName,
+                PhoneNumber = vm.Phone,
+                Address = vm.Address
             };
         }
     }

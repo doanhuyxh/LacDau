@@ -76,6 +76,8 @@ namespace LacDau.Controllers
         {
             switch (slug)
             {
+                case "admin":
+                    return Redirect("/admin/dashboard/index");
                 case "dang-nhap":
                     return View("_login");
                 case "dang-ky":
@@ -93,12 +95,17 @@ namespace LacDau.Controllers
             return View("ProductDetail");
         }
 
-        
         [Route("cart.html")]
         public IActionResult Card()
         {
             ViewBag.user = HttpContext.User.Identity.Name;
             return View("_card");
+        }
+
+        [HttpGet("profile/{username}")]
+        public IActionResult Profile(string username)
+        {
+            return View("_profile");
         }
     }
 }

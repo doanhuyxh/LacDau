@@ -97,9 +97,14 @@
 
             <div class="global-header-right">
                 <i class="icons icon-user"></i>
-                <a href="/dang-ky">Đăng ký</a> &nbsp;/&nbsp;
+                @if(User.Identity.IsAuthenticated){
+                    <a href="/profile/@User.Identity.Name">@User.Identity.Name</a>
+                }
+                else
+                {
+                <a href="/dang-ky">Đăng ký</a> <span class="px-1">/</span>
                 <a href="/dang-nhap">Đăng nhập</a>
-
+                }
             </div>
         </div>
     </div>
@@ -140,7 +145,9 @@
                     <a href="cart.html" class="icons icon-cart"> <span class="cart-count js-cart-count">0</span></a>
                     <a href="cart.html" class="font-700">Giỏ hàng</a>
 
-                    <div class="header-cart-hover" id="js-header-cart-holder"><!-- cart hover --></div>
+                    <div class="header-cart-hover" id="js-header-cart-holder">
+                        @await Html.PartialAsync("_cardHover")
+                    </div>
                 </div>
 
             </div>

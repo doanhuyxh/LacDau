@@ -50,16 +50,7 @@ namespace LacDau.Areas.Api
                 {
                     ApplicationUser user = vm;
                     user.Avatar = "/upload/avatar/blank_avatar.png";
-                    user.FirstName = "";
-                    user.LastName = "";
-                    user.PhoneNumber = "";
-                    user.Email = "";
-                    user.IsActive = true;
-                    user.Address = "";
-                    user.NormalizedEmail = "";
-                    user.EmailConfirmed = false;
                     await _userManager.CreateAsync(user, vm.PasswordHash);
-
                     json.Message = "success";
                     json.StatusCode = 201;
                     json.Object = user;

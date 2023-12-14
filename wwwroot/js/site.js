@@ -15,15 +15,23 @@ function check_login() {
         return false;
     }
 
-    Hura.User.login(email, password).then(function (data) {
-        if (data.status == 'error') {
-            alert(data.message);
-        } else {
-            alert("Đăng nhập thành công !");
+    let data = new FormData();
+    data.append("Sex", sex)
+    data.append("Sex", sex)
 
-            location.href = '/taikhoan';
-        }
-    });
+    fetch("/Account/Login", {
+        method: "POST",
+        body: data
+    }).then(res => res.json())
+        .then(res => {
+            if (res.statusCode == 200) {
+                window.location.reload()
+            }
+        })
+        .catch(err => {
+            console.log("Lỗi đăng nhập ", err)
+            alert("Lỗi đăng nhập")
+        })
 }
 
 function check_field_registor() {
@@ -50,9 +58,14 @@ function check_field_registor() {
     if (district == '') error += "- Mời bạn chọn quận, huyện\n";
 
     var pass = $("#password").val();
+
     var pass1 = $("#password1").val();
 
-    var sex = $('input[type="radio"]:checked').val()
+    var date = $("#birtday").val();
+    var month = $("#birtmonth").val();
+    var year = $("#birtyear").val();
+
+    var sex = $('input[type="radio"]:checked').val() === 'male' ? true : false
     if (pass1 != pass) {
         error += '- Mật khẩu không trùng khớp. Vui lòng nhập lại';
     }
@@ -62,30 +75,22 @@ function check_field_registor() {
         return false;
     } else {
 
-        var registerParams = {
-            action_type: "register",
-            info: {
-                email: email,
-                name: full_name,
-                tel: mobile,
-                mobile: mobile,
-                sex: sex,
-                birthday: '',
-                password: password,
-                address: address,
-                province: province,
-                district: district
-            }
-        }
+        let data = new FormData();
+        data.append("UserName", email)
+        data.append("FullName", full_name)
+        data.append("Phone", mobile)
+        data.append("Sex", sex)
+        data.append("PasswordHash", password)
+        data.append("ConfirmPassword", password)
+        data.append("Address", address)
+        data.append("Province", province)
+        data.append("DayDate", date)
+        data.append("MonthDate", month)
+        data.append("YearMonth", year)
 
-        Hura.Ajax.post('customer', registerParams).then(function (data) {
-            console.log(data);
-            if (data.status == 'error' && data.message == 'Email exist') {
-                alert('Email đã được sử dụng \n Vui lòng đăng ký lại ! ')
-            } else {
-                alert('Bạn đã đăng ký thành công ! ')
-                location.href = "/dang-nhap";
-            }
+        fetch("/Account/Register", {
+            method: "POST",
+            body: data
         })
 
     }
