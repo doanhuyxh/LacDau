@@ -1,9 +1,12 @@
 ﻿using LacDau.Data;
 using LacDau.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LacDau.Controllers
 {
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class PaymentMomoController : Controller
     {
         private readonly ApplicationDbContext _context;

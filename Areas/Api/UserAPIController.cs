@@ -84,8 +84,17 @@ namespace LacDau.Areas.Api
             }
 
             ApplicationUser user = await _userManager.FindByNameAsync(vm.UserName);
-
-            return Ok( await GenerateJwtToken(user));
+            return Ok(new JsonResultVM
+            {
+                StatusCode = 200,
+                Message = "",
+                Object = new
+                {
+                    UserName = vm.UserName,
+                    FullName = user.FullName,
+                    jwt = await GenerateJwtToken(user)
+                }
+            });
         }
 
         [HttpPost("RefreshToken")]

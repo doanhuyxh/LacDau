@@ -2,6 +2,8 @@
 using LacDau.Models;
 using LacDau.Models.CategoryVM;
 using LacDau.Models.ProductVM;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -9,6 +11,8 @@ using System.Diagnostics;
 
 namespace LacDau.Controllers
 {
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -24,6 +28,8 @@ namespace LacDau.Controllers
             _configuration = configuration1;
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public IActionResult Index()
         {
 
@@ -56,6 +62,8 @@ namespace LacDau.Controllers
 
         }
 
+        [AllowAnonymous]
+        [ApiExplorerSettings(IgnoreApi = true)]
         [HttpGet("tim")]
         public async Task<IActionResult> CategoryProduct()
         {
@@ -71,6 +79,7 @@ namespace LacDau.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         [HttpGet("{slug}")]
         public async Task<IActionResult> Slug(string slug)
         {
@@ -95,7 +104,7 @@ namespace LacDau.Controllers
             return View("ProductDetail");
         }
 
-        [Route("cart.html")]
+        [HttpGet("cart.html")]
         public IActionResult Card()
         {
             ViewBag.user = HttpContext.User.Identity.Name;

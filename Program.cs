@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -85,7 +86,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 builder.Services.AddMemoryCache(option =>
 {
-    option.ExpirationScanFrequency = TimeSpan.FromSeconds(30);
+    option.ExpirationScanFrequency = TimeSpan.FromMinutes(10);
 });
 
 builder.Services.AddResponseCaching();
@@ -119,7 +120,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 //thêm session
 builder.Services.AddSession(options =>
 {
-    options.Cookie.Name = "State1";
+    options.Cookie.Name = "WebAppLacDau";
     options.IdleTimeout = TimeSpan.FromMinutes(1); // Thời gian không hoạt động trước khi phiên hết hạn
     options.Cookie.HttpOnly = true; // Chỉ cho phép truy cập thông qua HTTP
     options.Cookie.IsEssential = true; // Đảm bảo phiên vẫn hoạt động ngay cả khi người dùng không đồng ý cookie
@@ -177,23 +178,37 @@ builder.Services.AddAuthentication(option =>
 
 builder.Services.AddSingleton(tokenValidata);
 
+
 // add cors
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins(configuration["AllowOrigin"]).AllowAnyMethod().AllowAnyHeader();
+        builder.WithOrigins(configuration.GetSection("AllowOrigin").Get<string[]>()).AllowAnyMethod().AllowAnyHeader();
     });
 });
 
+// limit size request
 builder.Services.Configure<KestrelServerOptions>(options =>
 {
     options.Limits.MaxRequestBodySize = long.MaxValue;
+    options.AllowSynchronousIO = true;
+
 });
 builder.Services.Configure<IISServerOptions>(options =>
 {
     options.MaxRequestBodySize = long.MaxValue;
     options.MaxRequestBodyBufferSize = int.MaxValue;
+    options.AllowSynchronousIO = true;
+});
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.BufferBody = true;
+    options.MultipartBodyLengthLimit = long.MaxValue;
+    options.BufferBody = true;
+    options.KeyLengthLimit = int.MaxValue;
+    options.BufferBodyLengthLimit = long.MaxValue;
+
 });
 
 //add service system
