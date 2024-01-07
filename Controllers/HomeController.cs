@@ -87,21 +87,23 @@ namespace LacDau.Controllers
             {
                 case "admin":
                     return Redirect("/admin/dashboard/index");
+                    break;
                 case "dang-nhap":
                     return View("_login");
+                    break;
                 case "dang-ky":
                     return View("_register");
+                    break;
                 case "quen-mat-khau":
                     return View("_forgotPassword");
+                    break;
                 default:
+                    ProductVM product = await _context.Product.FirstOrDefaultAsync(i => i.Slug == slug);
+                    product.ProductImg = _context.ProductImg.Where(i => i.ProductId == product.Id && i.IsDelete == false).ToList();
+                    ViewBag.product = product;
+                    return View("ProductDetail");
                     break;
             }
-
-            ProductVM product = await _context.Product.FirstOrDefaultAsync(i => i.Slug == slug);
-            product.ProductImg =  _context.ProductImg.Where(i=>i.ProductId == product.Id&& i.IsDelete == false).ToList();  
-            ViewBag.product = product;
-
-            return View("ProductDetail");
         }
 
         [HttpGet("cart.html")]

@@ -78,7 +78,7 @@ builder.Services.AddMvc();
 
 //Add connetdatabase
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(configuration.GetConnectionString("MSSQL") ?? "Data Source=127.0.0.1;Initial Catalog=WebAppLacDau;Persist Security Info=True;TrustServerCertificate=True; User ID=sa;Password=Admin123@"));
+        options.UseSqlServer(configuration.GetConnectionString("MSSQL") ?? "Data Source=127.0.0.1;Initial Catalog=WebAppLacDau2;Persist Security Info=True;TrustServerCertificate=True; User ID=sa;Password=Admin123@"));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
            .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -120,7 +120,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 //thêm session
 builder.Services.AddSession(options =>
 {
-    options.Cookie.Name = "WebAppLacDau";
+    options.Cookie.Name = "WebAppLacDau2";
     options.IdleTimeout = TimeSpan.FromMinutes(1); // Thời gian không hoạt động trước khi phiên hết hạn
     options.Cookie.HttpOnly = true; // Chỉ cho phép truy cập thông qua HTTP
     options.Cookie.IsEssential = true; // Đảm bảo phiên vẫn hoạt động ngay cả khi người dùng không đồng ý cookie
